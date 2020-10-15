@@ -141,24 +141,20 @@ module.exports = function(webpackEnv) {
     // This means they will be the "root" imports that are included in JS bundle.
     entry: {
       index: [
-          paths.appIndexJs,
-          isEnvDevelopment &&
-              require.resolve('react-dev-utils/webpackHotDevClient'),
+        isEnvDevelopment && require.resolve('react-dev-utils/webpackHotDevClient'),
+        paths.appIndexJs,
       ].filter(Boolean),
       query: [
-          paths.appQueryJs,
-          isEnvDevelopment &&
-              require.resolve('react-dev-utils/webpackHotDevClient'),
+        isEnvDevelopment && require.resolve('react-dev-utils/webpackHotDevClient'),
+        paths.appQueryJs,
       ].filter(Boolean),
       ticket: [
-          paths.appTicketJs,
-          isEnvDevelopment &&
-              require.resolve('react-dev-utils/webpackHotDevClient'),
+        isEnvDevelopment && require.resolve('react-dev-utils/webpackHotDevClient'),
+        paths.appTicketJs,
       ].filter(Boolean),
       order: [
-          paths.appOrderJs,
-          isEnvDevelopment &&
-              require.resolve('react-dev-utils/webpackHotDevClient'),
+        isEnvDevelopment && require.resolve('react-dev-utils/webpackHotDevClient'),
+        paths.appOrderJs,
       ].filter(Boolean),
     },
     output: {
@@ -518,7 +514,7 @@ module.exports = function(webpackEnv) {
           {
             inject: true,
             template: paths.appHtml,
-            fileName: "index.html",
+            filename: "index.html",
             chunks: ["index"]
           },
           isEnvProduction
@@ -545,7 +541,7 @@ module.exports = function(webpackEnv) {
           {
             inject: true,
             template: paths.appQueryHtml,
-            fileName: "query.html",
+            filename: "query.html",
             chunks: ["query"]
           },
           isEnvProduction
@@ -572,7 +568,7 @@ module.exports = function(webpackEnv) {
           {
             inject: true,
             template: paths.appTicketHtml,
-            fileName: "ticket.html",
+            filename: "ticket.html",
             chunks: ["ticket"]
           },
           isEnvProduction
@@ -599,7 +595,7 @@ module.exports = function(webpackEnv) {
           {
             inject: true,
             template: paths.appOrderHtml,
-            fileName: "order.html",
+            filename: "order.html",
             chunks: ["order"]
           },
           isEnvProduction
