@@ -1,12 +1,17 @@
 import * as actionTypes from "./constants"
 import { fromJS } from "immutable"
+import { getCityDataCache } from "../../utils/city-data";
+
+const {expires, cityData} = getCityDataCache()
+const hasExpired = Date.now() > expires;
+const defaultCityData = (!hasExpired && cityData && cityData.length > 0) ? cityData : []
 
 const defaultState = fromJS({
   from: "北京", // 始发站
   to: "上海", // 终到站
   isCitySelectorVisible: false, // 城市选择浮层开关
-  currentSelectingLeftCity: false,
-  cityData: null, // 城市浮层数据
+  currentSelectingLeftCity: false, // 当前是否选中的是左边城市
+  cityData: defaultCityData, // 城市浮层数据
   isLoadingCityData: false, // 城市浮层数据加载开关，节流使用
   isDateSelectorVisible: false, // 日期选择开关
   departDate: "", // 到达目的地日期
