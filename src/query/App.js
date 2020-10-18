@@ -5,7 +5,7 @@ import "./App.scss"
 function App() {
   return (
     <div>
-      App
+      query
     </div>
   )
 }
