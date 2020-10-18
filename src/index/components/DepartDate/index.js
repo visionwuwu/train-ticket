@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from "prop-types"
 import dayjs from "dayjs"
 import { h0 } from "../../../utils/times"
@@ -24,16 +24,20 @@ function DepartDate(props) {
     onClick
   } = props
 
-  let time = dayjs(date).format("YYYY-MM-DD")
-  let day = dayjs(date).day()
+  let timeStr = useMemo(() => {
+    return dayjs(date).format("YYYY-MM-DD")
+  }, [date])
+  let day = useMemo(() => {
+    return dayjs(date).day()
+  }, [date])
   let week_arry = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"]
   let week = week_arry[day]
   let isToday = h0() === date;
 
   return (
     <div className="depart-date" onClick={() => onClick(true)}>
-      <input type="hidden" name="departDate" value={time} />
-      {time} <span className="depart-week">{week} {isToday ? "(今天)" : ""}</span>
+      <input type="hidden" name="date" value={timeStr} />
+      {timeStr} <span className="depart-week">{week} {isToday ? "(今天)" : ""}</span>
     </div>
   )
 }

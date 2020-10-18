@@ -19,7 +19,8 @@ import {
   setSelectedCity,
   showDateSelector,
   setDepartDate,
-  hideDateSelector
+  hideDateSelector,
+  toggleHighSpeed
 } from "./store/actionCreators"
 
 function App(props) {
@@ -30,7 +31,8 @@ function App(props) {
     isLoadingCityData,
     cityData,
     isDateSelectorVisible,
-    departDate
+    departDate,
+    highSpeed
   } = props;
 
   const {
@@ -41,7 +43,8 @@ function App(props) {
     setSelectedCityDispatch,
     showDateSelectorDispatch,
     hideDateSelectorDispatch,
-    setDepartDateDispatch
+    setDepartDateDispatch,
+    toggleHighSpeedDispatch
   } = props;
   
   /* immutable对象转化为js对象 */
@@ -83,6 +86,13 @@ function App(props) {
     }
   }, [])
 
+  /* 只选高铁回调缓存 */
+  const highSpeedCbs= useMemo(() => {
+    return {
+      toggle: toggleHighSpeedDispatch
+    }
+  }, [])
+
   return (
     <div>
       <div className="header-wrapper">
@@ -91,7 +101,7 @@ function App(props) {
           onBack={ onBack }
         />
       </div>
-      <form className="form">
+      <form className="form" action="./query.html">
         <Journey 
           from={ from }
           to={ to }
@@ -101,7 +111,10 @@ function App(props) {
           date={departDate}
           {...departDateCbs}
         />
-        <HighSpeed />
+        <HighSpeed 
+          highSpeed={highSpeed}
+          {...highSpeedCbs}
+        />
         <Submit />
       </form>
       <CitySelector
@@ -158,9 +171,11 @@ const mapDispatchToProps = (dispatch) => {
     },
     setDepartDateDispatch(timeStamp) {
       if (!timeStamp || timeStamp < h0()) return;
-      
       dispatch(setDepartDate(timeStamp))
       dispatch(hideDateSelector(false))
+    },
+    toggleHighSpeedDispatch(status) {
+      dispatch(toggleHighSpeed(status))
     }
   }
 }

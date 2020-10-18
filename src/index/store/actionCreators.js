@@ -113,10 +113,10 @@ export const setDepartDate = (data) => ({
 /* 高铁切换 */
 export const toggleHighSpeed = () => {
   return (dispatch, getState) => {
-    const { highSpeed } = getState()
+    const { highSpeed } = getState().toJS().index
     dispatch({
       type: actionTypes.ACTION_SET_HIGH_SPEED,
-      data: fromJS(!highSpeed)
+      payload: fromJS(!highSpeed)
     })
   }
 }
