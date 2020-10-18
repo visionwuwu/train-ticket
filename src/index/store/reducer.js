@@ -1,6 +1,7 @@
 import * as actionTypes from "./constants"
 import { fromJS } from "immutable"
 import { getCityDataCache } from "../../utils/city-data";
+import { h0 } from "../../utils/times"
 
 const {expires, cityData} = getCityDataCache()
 const hasExpired = Date.now() > expires;
@@ -14,7 +15,7 @@ const defaultState = fromJS({
   cityData: defaultCityData, // 城市浮层数据
   isLoadingCityData: false, // 城市浮层数据加载开关，节流使用
   isDateSelectorVisible: false, // 日期选择开关
-  departDate: "", // 到达目的地日期
+  departDate: h0(new Date().getTime()), // 到达目的地日期
   highSpeed: false // 高铁选择开关
 })
 

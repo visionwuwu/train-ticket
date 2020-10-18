@@ -1,22 +1,26 @@
 import React, { useCallback, useMemo } from 'react'
 import { connect } from "react-redux"
-import "./App.scss"
-import {
-  exchangeFromTo,
-  showCitySelector,
-  hideCitySelector,
-  cityData,
-  setSelectedCity,
-} from "./store/actionCreators"
+import { h0 } from "../utils/times"
 import Header from "../components/Header"
 import CitySelector from "../components/CitySelector"
+import DateSelector from "../components/DateSelector"
+import "./App.scss"
 import { 
   Journey,
   DepartDate,
   HighSpeed,
   Submit
 } from "./components"
-
+import {
+  exchangeFromTo,
+  showCitySelector,
+  hideCitySelector,
+  cityData,
+  setSelectedCity,
+  showDateSelector,
+  setDepartDate,
+  hideDateSelector
+} from "./store/actionCreators"
 
 function App(props) {
   const {
@@ -24,7 +28,9 @@ function App(props) {
     to,
     isCitySelectorVisible,
     isLoadingCityData,
-    cityData
+    cityData,
+    isDateSelectorVisible,
+    departDate
   } = props;
 
   const {
@@ -33,6 +39,9 @@ function App(props) {
     showCitySelectorDispatch,
     hideCitySelectorDispatch,
     setSelectedCityDispatch,
+    showDateSelectorDispatch,
+    hideDateSelectorDispatch,
+    setDepartDateDispatch
   } = props;
   
   /* immutable对象转化为js对象 */
@@ -49,12 +58,28 @@ function App(props) {
       showCitySelector: showCitySelectorDispatch
     }
   }, [])
-
+  
+  /* 城市选择浮层回调缓存 */
   const citySelectorCbs = useMemo(() => {
     return {
       fetchCityData: cityDataDispatch,
       hideCitySelector: hideCitySelectorDispatch,
       onSelect: setSelectedCityDispatch
+    }
+  }, [])
+  
+  /* 到达日期选择回调缓存  */
+  const departDateCbs = useMemo(() => {
+    return {
+      onClick: showDateSelectorDispatch
+    }
+  }, [])
+  
+  /* 日期选择浮层回调缓存 */
+  const dateSelectorCbs = useMemo(() => {
+    return {
+      onBack: hideDateSelectorDispatch,
+      onSelect: setDepartDateDispatch
     }
   }, [])
 
@@ -72,7 +97,9 @@ function App(props) {
           to={ to }
           {...journeyCbs}
         />
-        <DepartDate
+        <DepartDate 
+          date={departDate}
+          {...departDateCbs}
         />
         <HighSpeed />
         <Submit />
@@ -82,6 +109,10 @@ function App(props) {
         loading={isLoadingCityData}
         cityData={cityDataJS}
         {...citySelectorCbs}
+      />
+      <DateSelector 
+        show={isDateSelectorVisible}
+        {...dateSelectorCbs}
       />
     </div>
   )
@@ -118,6 +149,18 @@ const mapDispatchToProps = (dispatch) => {
     setSelectedCityDispatch(city){
       dispatch(setSelectedCity(city))
       dispatch(hideCitySelector(false))
+    },
+    showDateSelectorDispatch(status) {
+      dispatch(showDateSelector(status))
+    },
+    hideDateSelectorDispatch(status) {
+      dispatch(hideDateSelector(status))
+    },
+    setDepartDateDispatch(timeStamp) {
+      if (!timeStamp || timeStamp < h0()) return;
+      
+      dispatch(setDepartDate(timeStamp))
+      dispatch(hideDateSelector(false))
     }
   }
 }
