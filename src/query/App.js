@@ -1,11 +1,18 @@
 import React from 'react'
 import { connect } from "react-redux"
 import "./App.scss"
+import Nav from "../components/Nav"
+import {
+  List,
+  Bottom
+} from "./components"
 
 function App() {
   return (
     <div>
-      App
+      <Nav />
+      <List />
+      <Bottom />
     </div>
   )
 }
