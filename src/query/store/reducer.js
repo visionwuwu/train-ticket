@@ -24,7 +24,7 @@ const defaultState = fromJS({
   departTimeEnd: 24, // 始发结束
   arraiverTimeStart: 0, // 终点开始
   arraiverTimeEnd: 24, // 终点结束
-  searchParse: false, // url查询参数解析完成与否
+  searchParsed: false, // url查询参数解析完成与否
 })
 
 export default (state = defaultState, action) => {
@@ -70,7 +70,7 @@ export default (state = defaultState, action) => {
     case actionTypes.ACTION_SET_ARRAIVER_TIME_END:
       return state.set("arraiverTimeEnd", action.payload);
     case actionTypes.ACTION_SET_SEARCH_PARSE:
-      return state.set("searchParse", action.payload);
+      return state.set("searchParsed", action.payload);
     default: 
       return state
   }

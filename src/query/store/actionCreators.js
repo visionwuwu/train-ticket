@@ -1,7 +1,7 @@
 import * as actionTypes from "./constants"
 import { fromJS } from "immutable"
 import { ORDER_DEPART, ORDER_DURATION } from "./constants"
-import { h0 } from "../../utils"
+import { h0 } from "../../utils/times"
 
 export const setFrom = (data) => {
   return {
@@ -147,7 +147,7 @@ export const setArraiverTimeEnd = (data) => {
     payload: fromJS(data)
   }
 }
-export const setSearchParse = (data) => {
+export const setSearchParsed = (data) => {
   return {
     type: actionTypes.ACTION_SET_SEARCH_PARSE,
     payload: fromJS(data)
