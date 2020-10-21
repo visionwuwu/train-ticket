@@ -1,12 +1,28 @@
-import React from 'react'
+import React, { memo } from 'react'
+import PropTypes from "prop-types"
+import ListItem from "./ListItem"
 import "./index.scss"
 
-function List() {
+function List(props) {
+  const { 
+    trainList
+   } = props
   return (
-    <div>
-      List
-    </div>
+    <ul className="list">
+     {
+       trainList.map(item => (
+         <ListItem 
+          key={item.trainNumber}
+          {...item}
+         />
+       ))
+     }
+    </ul>
   )
 }
 
-export default List;
+List.propTypes = {
+  trainList: PropTypes.array.isRequired
+}
+
+export default memo(List);

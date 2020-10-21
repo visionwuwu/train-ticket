@@ -55,7 +55,9 @@ function App(props) {
     departTimeEnd,
     arraiverTimeStart,
     arraiverTimeEnd,
-    searchParsed
+    searchParsed,
+    trainList,
+    isFiltersVisible
   } = props;
 
   const {
@@ -70,8 +72,14 @@ function App(props) {
     setDepartStationsDispatch,
     setArriverStationsDispatch,
     prevDateDispatch,
-    nextDateDispatch
+    nextDateDispatch,
+    toggleOrderTypesDispatch,
+    toggleHighSpeedDispatch,
+    toggleOnlyTicketsDispatch,
+    toggleIsFiltersVisibleDispatch,
   } = props
+
+  const trainListJS = trainList.toJS() || []
 
   // 解析url参数
   useEffect(() => {
@@ -154,13 +162,24 @@ function App(props) {
   const onBack = useCallback(() => {
     window.history.back()
   }, [])
-
+  
+  /* useNav自定义hooks */
   const {
     isPrevDisabled,
     isNextDisabled,
     prevClick,
     nextClick
   } = useNav(departDate, prevDateDispatch, nextDateDispatch)
+
+  /* bottom回调函数缓存 */
+  const bottomCbs = useMemo(() => {
+    return {
+      toggleOrderTypes: toggleOrderTypesDispatch,
+      toggleHighSpeed: toggleHighSpeedDispatch,
+      toggleOnlyTickets: toggleOnlyTicketsDispatch,
+      toggleIsFiltersVisible: toggleIsFiltersVisibleDispatch
+    }
+  }, [])
 
   if (!searchParsed) {
     return null
@@ -181,8 +200,16 @@ function App(props) {
         prevClick={prevClick}
         nextClick={nextClick}
       />
-      <List />
-      <Bottom />
+      <List 
+        trainList={trainListJS}
+      />
+      <Bottom 
+        orderTypes={orderTypes}
+        highSpeed={highSpeed}
+        onlyTickets={onlyTickets}
+        isFiltersVisible={isFiltersVisible}
+        {...bottomCbs}
+      />
     </div>
   )
 }
