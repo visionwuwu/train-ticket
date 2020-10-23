@@ -1,7 +1,8 @@
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import PropTypes from "prop-types"
 import classNames from "classnames"
 import { ORDER_DEPART } from "../../store/constants"
+import { isEmptyObj } from "../../../utils"
 import "./index.scss"
 
 function Bottom(props) {
@@ -9,7 +10,15 @@ function Bottom(props) {
     orderTypes,
     highSpeed,
     onlyTickets,
-    isFiltersVisible
+    isFiltersVisible,
+    checkedTicketTypes,
+    checkedTrainTypes,
+    checkedDepartStations,
+    checkedArriverStations,
+    departTimeStart,
+    departTimeEnd,
+    arraiverTimeStart,
+    arraiverTimeEnd,
   } = props;
 
   const {
@@ -18,6 +27,26 @@ function Bottom(props) {
     toggleHighSpeed,
     toggleIsFiltersVisible
   } = props
+
+  const noChecked = useMemo(() => {
+    return (isEmptyObj(checkedTicketTypes) &&
+    isEmptyObj(checkedTrainTypes) &&
+    isEmptyObj(checkedDepartStations) &&
+    isEmptyObj(checkedArriverStations) &&
+    departTimeStart === 0 &&
+    departTimeEnd === 24 &&
+    arraiverTimeStart === 0 &&
+    arraiverTimeEnd === 24)
+  }, [
+    checkedTicketTypes,
+    checkedTrainTypes,
+    checkedDepartStations,
+    checkedArriverStations,
+    departTimeStart,
+    departTimeEnd,
+    arraiverTimeStart,
+    arraiverTimeEnd,
+  ])
 
   return (
     <div className="bottom-filters">
@@ -43,10 +72,10 @@ function Bottom(props) {
         只看有票
       </span>
       <span
-        className={classNames('item')}
+        className={classNames('item', {'item-on': isFiltersVisible || !noChecked})}
         onClick={toggleIsFiltersVisible}
       >
-        <i className="icon">{isFiltersVisible ? '\uf0f7' : '\uf446'}</i>
+        <i className="icon">{noChecked ? '\uf0f7' : '\uf446'}</i>
         综合筛选
       </span>
     </div>
@@ -61,7 +90,15 @@ Bottom.propTypes = {
   toggleOrderTypes: PropTypes.func.isRequired,
   toggleOnlyTickets: PropTypes.func.isRequired,
   toggleHighSpeed: PropTypes.func.isRequired,
-  toggleIsFiltersVisible: PropTypes.func.isRequired
+  toggleIsFiltersVisible: PropTypes.func.isRequired,
+  checkedTicketTypes: PropTypes.object.isRequired,
+  checkedTrainTypes: PropTypes.object.isRequired,
+  checkedDepartStations: PropTypes.object.isRequired,
+  checkedArriverStations: PropTypes.object.isRequired,
+  departTimeStart: PropTypes.number.isRequired,
+  departTimeEnd: PropTypes.number.isRequired,
+  arraiverTimeStart: PropTypes.number.isRequired,
+  arraiverTimeEnd: PropTypes.number.isRequired,
 }
 
 export default memo(Bottom)

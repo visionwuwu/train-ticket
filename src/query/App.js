@@ -8,6 +8,8 @@ import "./App.scss"
 import Nav from "../components/Nav"
 import Header from "../components/Header"
 import useNav from "./hooks/useNav"
+import BottomModal from "./components/BottomModal"
+
 import {
   List,
   Bottom
@@ -22,7 +24,7 @@ import {
   toggleOrderTypes,
   toggleOnlyTickets,
   toggleIsFiltersVisible,
-  setTicketTyps,
+  setTicketTypes,
   setCheckedTicketTypes,
   setTrainTypes,
   setCheckedTrainTypes,
@@ -57,8 +59,13 @@ function App(props) {
     arraiverTimeEnd,
     searchParsed,
     trainList,
-    isFiltersVisible
+    isFiltersVisible,
+    ticketTypes,
+    trainTypes,
+    departStations,
+    arriverStations,
   } = props;
+
 
   const {
     setFromDispatch,
@@ -67,7 +74,7 @@ function App(props) {
     setDepartDateDispatch,
     setSearchParsedDispatch,
     setTrainListDispatch,
-    setTicketTypsDispatch,
+    setTicketTypesDispatch,
     setTrainTypesDispatch,
     setDepartStationsDispatch,
     setArriverStationsDispatch,
@@ -77,9 +84,25 @@ function App(props) {
     toggleHighSpeedDispatch,
     toggleOnlyTicketsDispatch,
     toggleIsFiltersVisibleDispatch,
+    setCheckedTicketTypesDispatch,
+    setCheckedTrainTypesDispatch,
+    setCheckedDepartStationsDispatch,
+    setCheckedArriverStationsDispatch,
+    setDepartTimeStartDispatch,
+    setDepartTimeEndDispatch,
+    setArraiverTimeStartDispatch,
+    setArraiverTimeEndDispatch,
   } = props
-
+  
   const trainListJS = trainList.toJS() || []
+  const ticketTypesJS = ticketTypes.toJS() || []
+  const trainTypesJS = trainTypes.toJS() || []
+  const departStationsJS = departStations.toJS() || []
+  const arriverStationsJS = arriverStations.toJS() || []
+  const checkedTicketTypesJS = checkedTicketTypes.toJS() || {}
+  const checkedTrainTypesJS = checkedTrainTypes.toJS() || {}
+  const checkedDepartStationsJS = checkedDepartStations.toJS() || {}
+  const checkedArriverStationsJS = checkedArriverStations.toJS() || {}
 
   // 解析url参数
   useEffect(() => {
@@ -109,10 +132,10 @@ function App(props) {
       .setSearch("highSpeed", highSpeed)
       .setSearch("orderTypes", orderTypes)
       .setSearch("onlyTickets", onlyTickets)
-      .setSearch("checkedTicketTypes", Object.keys(checkedTicketTypes).join())
-      .setSearch("checkedTrainTypes", Object.keys(checkedTrainTypes).join())
-      .setSearch("checkedDepartStations", Object.keys(checkedDepartStations).join())
-      .setSearch("checkedArriverStations", Object.keys(checkedArriverStations).join())
+      .setSearch("checkedTicketTypes", Object.keys(checkedTicketTypesJS).join())
+      .setSearch("checkedTrainTypes", Object.keys(checkedTrainTypesJS).join())
+      .setSearch("checkedDepartStations", Object.keys(checkedDepartStationsJS).join())
+      .setSearch("checkedArriverStations", Object.keys(checkedArriverStationsJS).join())
       .setSearch("departTimeStart", departTimeStart)
       .setSearch("departTimeEnd", departTimeEnd)
       .setSearch("arraiverTimeStart", arraiverTimeStart)
@@ -136,7 +159,7 @@ function App(props) {
         } = data
 
         setTrainListDispatch(trains)
-        setTicketTypsDispatch(ticketType)
+        setTicketTypesDispatch(ticketType)
         setTrainTypesDispatch(trainType)
         setDepartStationsDispatch(depStation)
         setArriverStationsDispatch(arrStation)
@@ -181,6 +204,21 @@ function App(props) {
     }
   }, [])
 
+  /* bottom-modal回调缓存 */
+  const bottomModalCbs = useMemo(() => {
+    return {
+      toggleIsFiltersVisible: toggleIsFiltersVisibleDispatch,
+      setCheckedTicketTypes: setCheckedTicketTypesDispatch,
+      setCheckedTrainTypes: setCheckedTrainTypesDispatch,
+      setCheckedDepartStations: setCheckedDepartStationsDispatch,
+      setCheckedArriverStations: setCheckedArriverStationsDispatch,
+      setDepartTimeStart: setDepartTimeStartDispatch,
+      setDepartTimeEnd: setDepartTimeEndDispatch,
+      setArraiverTimeStart: setArraiverTimeStartDispatch,
+      setArraiverTimeEnd: setArraiverTimeEndDispatch,
+    }
+  }, [])
+
   if (!searchParsed) {
     return null
   }
@@ -209,7 +247,33 @@ function App(props) {
         onlyTickets={onlyTickets}
         isFiltersVisible={isFiltersVisible}
         {...bottomCbs}
+        checkedTicketTypes={checkedTicketTypesJS}
+        checkedTrainTypes={checkedTrainTypesJS}
+        checkedDepartStations={checkedDepartStationsJS}
+        checkedArriverStations={checkedArriverStationsJS}
+        departTimeStart={departTimeStart}
+        departTimeEnd={departTimeEnd}
+        arraiverTimeStart={arraiverTimeStart}
+        arraiverTimeEnd={arraiverTimeEnd}
       />
+      { isFiltersVisible &&
+        <BottomModal
+          show={isFiltersVisible}
+          ticketTypes={ticketTypesJS}
+          trainTypes={trainTypesJS}
+          departStations={departStationsJS}
+          arriverStations={arriverStationsJS}
+          checkedTicketTypes={checkedTicketTypesJS}
+          checkedTrainTypes={checkedTrainTypesJS}
+          checkedDepartStations={checkedDepartStationsJS}
+          checkedArriverStations={checkedArriverStationsJS}
+          departTimeStart={departTimeStart}
+          departTimeEnd={departTimeEnd}
+          arraiverTimeStart={arraiverTimeStart}
+          arraiverTimeEnd={arraiverTimeEnd}
+          {...bottomModalCbs}
+        />
+      }
     </div>
   )
 }
@@ -223,7 +287,7 @@ const mapStateToProps = (state) => ({
   orderTypes: state.getIn(["query", "orderTypes"]),
   onlyTickets: state.getIn(["query", "onlyTickets"]),
   isFiltersVisible: state.getIn(["query", "isFiltersVisible"]),
-  ticketTyps: state.getIn(["query", "ticketTyps"]),
+  ticketTypes: state.getIn(["query", "ticketTypes"]),
   checkedTicketTypes: state.getIn(["query", "checkedTicketTypes"]),
   trainTypes: state.getIn(["query", "trainTypes"]),
   checkedTrainTypes: state.getIn(["query", "checkedTrainTypes"]),
@@ -267,8 +331,8 @@ const mapDispatchToProps = (dispatch) => {
     toggleIsFiltersVisibleDispatch(isFiltersVisible) {
       dispatch(toggleIsFiltersVisible(isFiltersVisible))
     },
-    setTicketTypsDispatch(ticketTyps) {
-      dispatch(setTicketTyps(ticketTyps))
+    setTicketTypesDispatch(ticketTyps) {
+      dispatch(setTicketTypes(ticketTyps))
     },
     setCheckedTicketTypesDispatch(checkedTicketTypes) {
       dispatch(setCheckedTicketTypes(checkedTicketTypes))

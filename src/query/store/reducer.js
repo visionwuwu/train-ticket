@@ -12,7 +12,7 @@ const defaultState = fromJS({
   orderTypes: ORDER_DEPART, // 排序类型 早 ⇀ 晚 | 短 ⇀ 长
   onlyTickets: false, // 只看有票
   isFiltersVisible: false, // 综合筛选浮层显示
-  ticketTyps: [], // 坐席
+  ticketTypes: [], // 坐席
   checkedTicketTypes: {},
   trainTypes: [], // 车次
   checkedTrainTypes: {},
@@ -36,7 +36,16 @@ export default (state = defaultState, action) => {
     case actionTypes.ACTION_SET_DEPART_DATE:
       return state.set("departDate", action.payload);
     case actionTypes.ACTION_SET_HIGH_SPEED:
-      return state.set("highSpeed", action.payload);
+      const highSpeed = action.payload
+      const checkedTrainTypesJS = state.get("checkedTrainTypes").toJS()
+      if (highSpeed) {
+        checkedTrainTypesJS[1] = "1"
+        checkedTrainTypesJS[5] = "5"
+      } else {
+        delete checkedTrainTypesJS[1]
+        delete checkedTrainTypesJS[5]
+      }
+      return state.merge(state, {highSpeed, checkedTrainTypes: fromJS(checkedTrainTypesJS)})
     case actionTypes.ACTION_SET_TRAIN_LIST:
       return state.set("trainList", action.payload);
     case actionTypes.ACTION_SET_ORDER_TYPES:
@@ -45,14 +54,16 @@ export default (state = defaultState, action) => {
       return state.set("onlyTickets", action.payload);
     case actionTypes.ACTION_SET_IS_FILTERS_VISIBLE:
       return state.set("isFiltersVisible", action.payload);
-    case actionTypes.ACTION_SET_TICKET_TYPS:
-      return state.set("ticketTyps", action.payload);
+    case actionTypes.ACTION_SET_TICKET_TYPES:
+      return state.set("ticketTypes", action.payload);
     case actionTypes.ACTION_SET_CHECKED_TICKET_TYPES:
       return state.set("checkedTicketTypes", action.payload);
     case actionTypes.ACTION_SET_TRAIN_TYPES:
       return state.set("trainTypes", action.payload);
     case actionTypes.ACTION_SET_CHECKED_TRAIN_TYPES:
-      return state.set("checkedTrainTypes", action.payload);
+      const payloadJS = action.payload.toJS()
+      const hasHighSpeed = (1 in payloadJS && 5 in payloadJS);
+      return state.merge({checkedTrainTypes: action.payload, highSpeed: hasHighSpeed})
     case actionTypes.ACTION_SET_DEPART_STATIONS:
       return state.set("departStations", action.payload);
     case actionTypes.ACTION_SET_CHECKED_DEPART_STATIONS:

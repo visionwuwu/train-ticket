@@ -75,9 +75,9 @@ export const toggleIsFiltersVisible = () => {
   }
 }
 
-export const setTicketTyps = (data) => {
+export const setTicketTypes = (data) => {
   return {
-    type: actionTypes.ACTION_SET_TICKET_TYPS,
+    type: actionTypes.ACTION_SET_TICKET_TYPES,
     payload: fromJS(data)
   }
 }
