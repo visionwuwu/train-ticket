@@ -27,3 +27,11 @@ export function throttle(timer, doSome, options) {
     }
   }
 }
+
+/**
+ * 判断是否为对象
+ * @param {*} target 
+ */
+export const isEmptyObj = (target) => {
+  return target !== null && Object.keys(target).length === 0
+}
