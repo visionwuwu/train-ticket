@@ -11,7 +11,8 @@ const defaultState = fromJS({
   arriverTimeStr: "",
   durationStr: "",
   isScheduleVisible: false,
-  ticketList: []
+  ticketList: [],
+  searchParsed: false
 })
 
 export default (state = defaultState, action) => {
@@ -36,6 +37,8 @@ export default (state = defaultState, action) => {
       return state.set("isScheduleVisible", action.payload)
     case actionTypes.ACTION_SET_TICKET_LIST:
       return state.set("ticketList", action.payload)
+    case actionTypes.ACTION_SET_SEARCH_PARSED:
+      return state.set("searchParsed", action.payload)
     default: 
       return state
   }

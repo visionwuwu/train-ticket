@@ -1,6 +1,6 @@
 import React, { memo, useMemo, useState, useRef, useEffect } from 'react'
 import PropTypes from "prop-types"
-import useWinSize from "../../../hooks/useWinSize"
+import useWinSize from "../../../../common/hooks/useWinSize"
 import "./index.scss"
 
 function Slider(props) {

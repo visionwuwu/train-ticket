@@ -7,7 +7,7 @@ import dayjs from "dayjs"
 import "./App.scss"
 import Nav from "../components/Nav"
 import Header from "../components/Header"
-import useNav from "./hooks/useNav"
+import useNav from "../common/hooks/useNav"
 import BottomModal from "./components/BottomModal"
 
 import {
