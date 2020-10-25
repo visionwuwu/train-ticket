@@ -58,7 +58,7 @@ export const setIsScheduleVisible = (isScheduleVisible) => {
 }
 export const toggleScheduleVisible = () => {
   return (dispatch, getState) => {
-    const isScheduleVisible = getState().toJS().isScheduleVisible
+    const {isScheduleVisible} = getState().toJS().ticket
     dispatch(setIsScheduleVisible(!isScheduleVisible))
   }
 }

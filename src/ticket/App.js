@@ -1,15 +1,15 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, Suspense, lazy } from 'react'
 import { connect } from "react-redux"
 import Header from "../components/Header"
 import Nav from "../components/Nav"
-import Detail from "./components/Detail"
-import Schedule from "./components/Schedule"
+import Detail from "../components/Detail"
 import Candidate from "./components/Candidate"
 import URI from "urijs"
 import dayjs from "dayjs"
 import { h0 } from '../utils/times'
 import { fetchTicketData } from '../api/ticket'
 import useNav from "../common/hooks/useNav"
+import TrainContext from "./contexts/train-context"
 import "./App.scss"
 import {
   setDepartDate,
@@ -20,7 +20,6 @@ import {
   setDepartTimeStr,
   setArriverTimeStr,
   setDurationStr,
-  setIsScheduleVisible,
   setTicketList,
   toggleScheduleVisible,
   setSearchParsed,
@@ -52,14 +51,16 @@ function App(props) {
     setDepartTimeStrDispatch,
     setArriverTimeStrDispatch,
     setDurationStrDispatch,
-    setIsScheduleVisibleDispatch,
     setTicketListDispatch,
     toggleScheduleVisibleDispatch,
     setSearchParsedDispatch,
     prevDateDispatch,
     nextDateDispatch
   } = props
+  
+  const ticketListJS = ticketList.toJS() || []
 
+  const Schedule = lazy(() => import("./components/Schedule"))
 
   useEffect(() => {
     const queies = URI.parseQuery(window.location.search)
@@ -86,7 +87,6 @@ function App(props) {
       .toString()
 
     fetchTicketData(url).then(data => {
-      console.log(data)
       const {detail, candidates} = data
       const {
         departTimeStr,
@@ -134,7 +134,44 @@ function App(props) {
           nextClick={nextClick}
         />
       </div>
-      App
+      <Detail 
+        departDate={departDate}
+        arriverDate={arriverDate}
+        departStation={departStation}
+        arriverStation={arriverStation}
+        trainNumber={trainNumber}
+        departTimeStr={departTimeStr}
+        arriverTimeStr={arriverTimeStr}
+        durationStr={durationStr}>
+          <span className="left"></span>
+          <span className="schedule" onClick={() => toggleScheduleVisibleDispatch()}>时刻列表</span>
+          <span className="right"></span>
+      </Detail>
+      {
+        isScheduleVisible && 
+        <div className="mask" onClick={() => {
+          toggleScheduleVisibleDispatch()
+        }}>
+          <Suspense fallback={<div>loading...</div>}>
+            <Schedule 
+              date= {departDate}
+              trainNumber= {trainNumber}
+              departStation= {departStation}
+              arriverStation= {arriverStation}
+            />
+          </Suspense>
+        </div>
+      }
+      <TrainContext.Provider value={{
+        trainNumber,
+        departDate,
+        departStation,
+        arriverStation
+      }}>
+        <Candidate 
+          ticketList={ticketListJS}
+        />
+      </TrainContext.Provider>
     </div>
   )
 }
@@ -178,9 +215,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     setDurationStrDispatch(durationStr) {
       dispatch(setDurationStr(durationStr))
-    },
-    setIsScheduleVisibleDispatch(isScheduleVisible) {
-      dispatch(setIsScheduleVisible(isScheduleVisible))
     },
     setTicketListDispatch(ticketList) {
       dispatch(setTicketList(ticketList))

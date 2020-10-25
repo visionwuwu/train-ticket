@@ -166,11 +166,7 @@ module.exports = function(webpackEnv) {
       // In development, it does not produce real files.
       filename: isEnvProduction
         ? 'static/js/[name].[contenthash:8].js'
-<<<<<<< HEAD
-        : isEnvDevelopment && 'static/js/[name].js',
-=======
         : isEnvDevelopment && 'static/js/[name].bundle.js',
->>>>>>> query
       // TODO: remove this when upgrading to webpack 5
       futureEmitAssets: true,
       // There are also additional JS chunk files if you use code splitting.
