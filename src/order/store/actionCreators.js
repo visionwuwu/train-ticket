@@ -112,7 +112,8 @@ export const addAdult = () => {
         id: ++passgenerId,
         name: "",
         licenceNo: "",
-        ticketType: "adult"
+        ticketType: "adult",
+        seatType: "Z"
       }
     ]))
   }
@@ -132,7 +133,7 @@ export const addChild = () => {
     }
 
     if (!adultPassenger) {
-      window.alert("添加儿童必须，先添加一个成人乘客！！！")
+      return window.alert("添加儿童必须，先添加一个成人乘客！！！")
     }
 
     dispatch(setPassengers([
@@ -143,7 +144,8 @@ export const addChild = () => {
         gender: "",
         birthday: "",
         followAdult: adultPassenger,
-        ticketType: "child"
+        ticketType: "child",
+        seatType: "Z"
       }
     ]))
   }
@@ -152,7 +154,7 @@ export const removePassenger = (id) => {
   return(dispatch, getState) => {
     const { passengers } = getState().toJS().order
     dispatch(setPassengers(
-      passengers.fliter(passenger => {
+      passengers.filter(passenger => {
         return passenger.id !== id && passenger.followAdult !== id
       })
     ))
@@ -161,10 +163,9 @@ export const removePassenger = (id) => {
 export const updatePassenger = (id, data, removeFiledArr = []) => {
   return (dispatch, getState) => {
     const { passengers } = getState().toJS().order
-    let newPassengers = { ...passengers }
-    newPassengers = newPassengers.map(passenger => {
+    let newPassengers = passengers.map(passenger => {
       if (passenger.id === id) {
-        passenger = Object.assgin({}, passenger, data)
+        passenger = Object.assign({}, passenger, data)
         for (let key of removeFiledArr) {
           delete passenger[key]
         }
@@ -184,8 +185,8 @@ export const showGenderMenu = (id) => {
 
     dispatch(showMenu({
       onPress(gender) {
-        updatePassenger(id, { gender })
-        hideMenu()
+        dispatch(updatePassenger(id, { gender }))
+        dispatch(hideMenu())
       },
       options: [
         {
@@ -202,7 +203,7 @@ export const showGenderMenu = (id) => {
     }))
   }
 }
-export const showFollowAdult = (id, followAdult) => {
+export const showFollowAdultMenu = (id, followAdult) => {
   return (dispatch, getState) => {
     const { passengers } = getState().toJS().order
 
@@ -212,10 +213,10 @@ export const showFollowAdult = (id, followAdult) => {
 
     dispatch(showMenu({
       onPress(followAdult) {
-        updatePassenger(id, { followAdult })
-        hideMenu()
+        dispatch(updatePassenger(id, { followAdult }))
+        dispatch(hideMenu())
       },
-      options: passenger.filter(item => item.ticketType === "adult")
+      options: passengers.filter(item => item.ticketType === "adult")
       .map(v => {
         return {
           title: v.name,
@@ -226,7 +227,7 @@ export const showFollowAdult = (id, followAdult) => {
     }))
   }
 }
-export const showTicketType = (id) => {
+export const showTicketTypeMenu = (id) => {
   return (dispatch, getState) => {
     const { passengers } = getState().toJS().order
 
@@ -237,18 +238,24 @@ export const showTicketType = (id) => {
     dispatch(showMenu({
       onPress(ticketType) {
         if (ticketType === "adult") {
-          updatePassenger(id, { ticketType, licenceNo: "" }, [
+          dispatch(updatePassenger(id, { ticketType, licenceNo: "" }, [
             "gender", "birthday", "followAdult"
-          ])
+          ]))
         } else {
-          updatePassenger(id, { 
+          let adultPassenger = passengers.find(passenger => passenger.id !== id && passenger.ticketType === "adult")
+          if (!adultPassenger) {
+            window.alert("必须存在一个成人乘客！！！")
+            dispatch(hideMenu())
+            return;
+          }
+          dispatch(updatePassenger(id, { 
             ticketType, 
             gender: "",
             birthday: "",
-            followAdult: ""
-          }, [ "licenceNo"])
+            followAdult: adultPassenger.id
+          }, [ "licenceNo"]))
         }
-        hideMenu()
+        dispatch(hideMenu())
       },
       options: [
         {

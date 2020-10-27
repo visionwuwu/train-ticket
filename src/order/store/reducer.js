@@ -14,7 +14,7 @@ const defaultState = fromJS({
   price: 0,
   passengers: [],
   searchParsed: false,
-  menu: [],
+  menu: {},
   isMenuVisible: false
 })
 

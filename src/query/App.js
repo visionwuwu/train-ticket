@@ -119,7 +119,13 @@ function App(props) {
     setHighSpeedDispatch(highSpeed === "true")
 
     setSearchParsedDispatch(true)
-  }, [])
+  }, [
+    setFromDispatch,
+    setToDispatch,
+    setDepartDateDispatch,
+    setHighSpeedDispatch,
+    setSearchParsedDispatch,
+  ])
 
   // 获取车次列表
   useEffect(() => {
@@ -217,7 +223,17 @@ function App(props) {
       setArraiverTimeStart: setArraiverTimeStartDispatch,
       setArraiverTimeEnd: setArraiverTimeEndDispatch,
     }
-  }, [])
+  }, [
+    toggleIsFiltersVisibleDispatch,
+    setCheckedTicketTypesDispatch,
+    setCheckedTrainTypesDispatch,
+    setCheckedDepartStationsDispatch,
+    setCheckedArriverStationsDispatch,
+    setDepartTimeStartDispatch,
+    setDepartTimeEndDispatch,
+    setArraiverTimeStartDispatch,
+    setArraiverTimeEndDispatch,
+  ])
 
   if (!searchParsed) {
     return null

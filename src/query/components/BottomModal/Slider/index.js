@@ -11,12 +11,23 @@ function Slider(props) {
     onStartChanged,
     onEndChanged
   } = props;
+
+  const winSize = useWinSize()
+
+  const startHandleRef = useRef()
+  const endHandleRef = useRef()
   
-  const [start, setStart] = useState(() => currentStartHours / 24 * 100)
-  const [end, setEnd] = useState(() => currentEndHours / 24 * 100)
+  const lastStartX = useRef()
+  const lastEndX = useRef()
+
+  const rangeRef = useRef()
+  const rangeWidth = useRef()
 
   const prevCurrentStartHours = useRef(currentStartHours)
   const prevCurrentEndHours = useRef(currentEndHours)
+
+  const [start, setStart] = useState(() => currentStartHours / 24 * 100)
+  const [end, setEnd] = useState(() => currentEndHours / 24 * 100)
 
   if (prevCurrentStartHours.current !== currentStartHours) {
     setStart(currentStartHours / 24 * 100)
@@ -27,17 +38,6 @@ function Slider(props) {
     setEnd(currentEndHours / 24 * 100)
     prevCurrentEndHours.current = currentEndHours
   }
-  
-  const startHandleRef = useRef()
-  const endHandleRef = useRef()
-  
-  const lastStartX = useRef()
-  const lastEndX = useRef()
-
-  const rangeRef = useRef()
-  const rangeWidth = useRef()
-
-  const winSize = useWinSize()
 
   const onStartTouchBegin = (e) => {
     const touch = e.targetTouches[0]
@@ -100,7 +100,7 @@ function Slider(props) {
   useEffect(() => {
     rangeWidth.current = parseFloat(
       window.getComputedStyle(rangeRef.current).width
-    ) / 100 * winSize.width
+    )
   }, [winSize.width])
 
   useEffect(() => {
@@ -111,18 +111,18 @@ function Slider(props) {
     return () => {
       startHandleRef.current.removeEventListener("touchstart", onStartTouchBegin, false)
       startHandleRef.current.removeEventListener("touchmove", onStartTouchMove, false)
-      startHandleRef.current.removeEventListener("touchstart", onEndTouchBegin, false)
-      startHandleRef.current.removeEventListener("touchmove", onEndTouchMove, false)
+      endHandleRef.current.removeEventListener("touchstart", onEndTouchBegin, false)
+      endHandleRef.current.removeEventListener("touchmove", onEndTouchMove, false)
     }
-  }, [])
+  })
 
   useEffect(() => {
     onStartChanged(startHours)
-  }, [startHours])
+  }, [startHours, onStartChanged])
 
   useEffect(() => {
     onEndChanged(endHours)
-  }, [endHours])
+  }, [endHours, onEndChanged])
 
   return (
     <div className="option">

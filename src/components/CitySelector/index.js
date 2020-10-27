@@ -23,7 +23,7 @@ function CitySelector(props) {
   useEffect(() => {
     if(!show || loading || cityData.length > 0) return;
     fetchCityData();
-  }, [show, loading, cityData])
+  }, [show, loading, cityData, fetchCityData])
   
   /* 城市搜索的返回事件回调 */
   const onBack = useCallback(() => {

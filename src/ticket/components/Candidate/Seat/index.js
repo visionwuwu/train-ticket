@@ -21,7 +21,7 @@ function Seat(props) {
           <i>￥</i>
           {priceMsg}
         </span>
-        <span className="btn">{expended ? "预定" : "收起"}</span>
+        <span className="btn">{expended ? "收起" : "预定"}</span>
         <span className="num">{ticketsLeft}</span>
       </div>
       <div 

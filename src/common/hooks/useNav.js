@@ -9,14 +9,16 @@ function useNav(departDate, prevDateDispatch, nextDateDispatch) {
     if (isPrevDisabled) return;
     prevDateDispatch()
   }, [
-    isPrevDisabled
+    isPrevDisabled,
+    prevDateDispatch
   ])
 
   const nextClick = useCallback(() => {
     if (isNextDisabled) return;
     nextDateDispatch()
   }, [
-    isNextDisabled
+    isNextDisabled,
+    nextDateDispatch
   ])
 
   return {

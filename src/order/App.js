@@ -1,5 +1,9 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { connect } from "react-redux"
+import URI from "urijs"
+import dayjs from "dayjs"
+import { h0 } from "../utils/times"
+import { fetchOrderData } from "../api/order"
 import Header from "../components/Header"
 import Detail from "../components/Detail"
 import Ticket from "./components/Ticket"
@@ -19,10 +23,16 @@ import {
   setArriverTimeStr,
   setDurationStr,
   setPrice,
-  setPassengers,
   setSearchParsed,
-  setMenu,
-  setIsMenuVisible
+  setIsMenuVisible,
+  hideMenu,
+  removePassenger,
+  updatePassenger,
+  addAdult,
+  addChild,
+  showGenderMenu,
+  showFollowAdultMenu,
+  showTicketTypeMenu
 } from "./store/actionCreators"
 
 function App(props) {
@@ -44,25 +54,128 @@ function App(props) {
   } = props
 
   const {
-    departDateDispatch,
-    arriverDateDispatch,
-    departStationDispatch,
-    arriverStationDispatch,
-    trainNumberDispatch,
-    seatTypeDispatch,
-    departTimeStrDispatch,
-    arriverTimeStrDispatch,
-    durationStrDispatch,
-    priceDispatch,
-    passengersDispatch,
-    searchParsedDispatch,
-    menuDispatch,
-    isMenuVisibleDispatch,
+    setDepartDateDispatch,
+    setArriverDateDispatch,
+    setDepartStationDispatch,
+    setArriverStationDispatch,
+    setTrainNumberDispatch,
+    setSeatTypeDispatch,
+    setDepartTimeStrDispatch,
+    setArriverTimeStrDispatch,
+    setDurationStrDispatch,
+    setPriceDispatch,
+    setSearchParsedDispatch,
+    setHideMenuDispatch,
+    setRemovePassengerDispatch,
+    setUpdatePassengerDispatch,
+    setAddAdultDispatch,
+    setAddChildDispatch,
+    setShowGenderMenuDispatch,
+    setShowFollowAdultMenuDispatch,
+    setShowTicketTypeMenuDispatch,
   } = props
+
+  const passengersJS = passengers.toJS() || []
+  const menuJS = menu.toJS() || {}
+
+  // 解析url
+  useEffect(() => {
+    const queies = URI.parseQuery(window.location.search)
+
+    const {
+      type,
+      aStation,
+      dStation,
+      date,
+      trainNumber
+    } = queies
+
+    setSeatTypeDispatch(type)
+    setTrainNumberDispatch(trainNumber)
+    setArriverStationDispatch(aStation)
+    setDepartStationDispatch(dStation)
+    setDepartDateDispatch(h0(dayjs(date).valueOf()))
+    setSearchParsedDispatch(true)
+
+  }, [
+    setSeatTypeDispatch,
+    setTrainNumberDispatch,
+    setArriverStationDispatch,
+    setDepartStationDispatch,
+    setDepartDateDispatch,
+    setSearchParsedDispatch,
+  ])
+
+  useEffect(() => {
+    if (!searchParsed) return;
+
+    const url = new URI('/rest/order')
+      .setSearch("type", seatType)
+      .setSearch("trainNumber", trainNumber)
+      .setSearch("aStation", arriverStation)
+      .setSearch("dStation", departStation)
+      .setSearch("date", dayjs(departDate).format("YYYY-MM-DD"))
+
+      fetchOrderData(url).then(data => {
+        const {
+          departTimeStr,
+          arriveTimeStr,
+          arriveDate,
+          durationStr,
+          price,
+        } = data;
+
+        setArriverDateDispatch(arriveDate)
+        setDepartTimeStrDispatch(departTimeStr)
+        setArriverTimeStrDispatch(arriveTimeStr)
+        setDurationStrDispatch(durationStr)
+        setPriceDispatch(price)
+      })
+  }, [
+    searchParsed,
+    seatType,
+    trainNumber,
+    arriverStation,
+    departStation,
+    departDate,
+    setArriverDateDispatch,
+    setDepartTimeStrDispatch,
+    setArriverTimeStrDispatch,
+    setDurationStrDispatch,
+    setPriceDispatch,
+  ])
 
   const onBack = useCallback(() => {
     window.history.back()
   }, [])
+
+  const passengersCbs = useMemo(() => {
+    return {
+      removePassenger: setRemovePassengerDispatch,
+      updatePassenger: setUpdatePassengerDispatch,
+      addAdult: setAddAdultDispatch,
+      addChild: setAddChildDispatch,
+      showGenderMenu: setShowGenderMenuDispatch,
+      showFollowAdultMenu: setShowFollowAdultMenuDispatch,
+      showTicketTypeMenu: setShowTicketTypeMenuDispatch,
+    }
+  }, [
+    setRemovePassengerDispatch,
+    setUpdatePassengerDispatch,
+    setAddAdultDispatch,
+    setAddChildDispatch,
+    setShowGenderMenuDispatch,
+    setShowFollowAdultMenuDispatch,
+    setShowTicketTypeMenuDispatch,
+  ])
+
+  const menuCbs = useMemo(() => {
+    return {
+      hideMenu: setHideMenuDispatch
+    }
+  }, [setHideMenuDispatch])
+
+  if (!searchParsed) return null
 
   return (
     <div className="app">
@@ -71,11 +184,43 @@ function App(props) {
         onBack={onBack}
       />
       <Detail 
+        trainNumber={trainNumber}
         departDate={departDate}
         arriverDate={arriverDate}
         departTimeStr={departTimeStr}
         arriverTimeStr={arriverTimeStr}
         durationStr={durationStr}
+        departStation={departStation}
+        arriverStation={arriverStation}
+        >
+          <span
+            style={{ display: 'block' }}
+            className="train-icon"
+          ></span>
+      </Detail>
+      <Ticket 
+        seatType={seatType}
+        price={price}
+      />
+      <Passengers 
+        passengers={passengersJS}
+        {...passengersCbs}
+      />
+      {
+        passengersJS.length > 0 &&
+        <Choose 
+          passengers={passengersJS}
+          updatePassenger={passengersCbs.updatePassenger}
+        />
+      }
+      <Account 
+        price={price}
+        length={passengersJS.length}
+      />
+      <Menu
+        show={isMenuVisible}
+        {...menuJS}
+        {...menuCbs}
       />
     </div>
   )
@@ -100,47 +245,65 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    departDateDispatch(departDate){
+    setDepartDateDispatch(departDate){
       dispatch(setDepartDate(departDate))
     },
-    arriverDateDispatch(arriverDate){
+    setArriverDateDispatch(arriverDate){
       dispatch(setArriverDate(arriverDate))
     },
-    departStationDispatch(departStation){
+    setDepartStationDispatch(departStation){
       dispatch(setDepartStation(departStation))
     },
-    arriverStationDispatch(arriverStation){
+    setArriverStationDispatch(arriverStation){
       dispatch(setArriverStation(arriverStation))
     },
-    trainNumberDispatch(trainNumber){
+    setTrainNumberDispatch(trainNumber){
       dispatch(setTrainNumber(trainNumber))
     },
-    seatTypeDispatch(seatType){
+    setSeatTypeDispatch(seatType){
       dispatch(setSeatType(seatType))
     },
-    departTimeStrDispatch(departTimeStr){
+    setDepartTimeStrDispatch(departTimeStr){
       dispatch(setDepartTimeStr(departTimeStr))
     },
-    arriverTimeStrDispatch(arriverTimeStr){
+    setArriverTimeStrDispatch(arriverTimeStr){
       dispatch(setArriverTimeStr(arriverTimeStr))
     },
-    durationStrDispatch(durationStr){
+    setDurationStrDispatch(durationStr){
       dispatch(setDurationStr(durationStr))
     },
-    priceDispatch(price){
+    setPriceDispatch(price){
       dispatch(setPrice(price))
     },
-    passengersDispatch(passengers){
-      dispatch(setPassengers(passengers))
-    },
-    searchParsedDispatch(searchParsed){
+    setSearchParsedDispatch(searchParsed){
       dispatch(setSearchParsed(searchParsed))
     },
-    menuDispatch(menu){
-      dispatch(setMenu(menu))
-    },
-    isMenuVisibleDispatch(isMenuVisible){
+    setIsMenuVisibleDispatch(isMenuVisible){
       dispatch(setIsMenuVisible(isMenuVisible))
+    },
+    setHideMenuDispatch() {
+      dispatch(hideMenu())
+    },
+    setRemovePassengerDispatch(id) {
+      dispatch(removePassenger(id))
+    },
+    setUpdatePassengerDispatch(id, data, removeChildArr) {
+      dispatch(updatePassenger(id, data, removeChildArr))
+    },
+    setAddAdultDispatch() {
+      dispatch(addAdult())
+    },
+    setAddChildDispatch() {
+      dispatch(addChild())
+    },
+    setShowGenderMenuDispatch(id) {
+      dispatch(showGenderMenu(id))
+    },
+    setShowFollowAdultMenuDispatch(id, followAdult) {
+      dispatch(showFollowAdultMenu(id, followAdult))
+    },
+    setShowTicketTypeMenuDispatch(id) {
+      dispatch(showTicketTypeMenu(id))
     },
   }
 }
