@@ -178,7 +178,7 @@ function App(props) {
   if (!searchParsed) return null
 
   return (
-    <div className="app">
+    <div className="app-content">
       <Header 
         title="订单填写"
         onBack={onBack}
