@@ -24,33 +24,33 @@ function Passenger(props) {
   }, [ticketType])
 
   return (
-    <li className="passenger">
-      <i 
+      <li className="passenger">
+          <i 
         className="delete"
         onClick={() => removePassenger(id)}
       >
-        —
-      </i>
-      <ol className="items">
-        <li className="item">
-          <label className="label name">姓名</label>
-          <input
+              —
+          </i>
+          <ol className="items">
+              <li className="item">
+                  <label className="label name">姓名</label>
+                  <input
             type="text"
             className="input name"
             placeholder="请输入姓名"
             value={name}
             onChange={(e) => { updatePassenger(id, { name: e.target.value }) }}
           />
-          <label 
+                  <label 
             className="ticket-type"
             onClick={ () => showTicketTypeMenu(id)}
           >
-            { isAdult ? "成人票" : "儿童票" }
-          </label>
-        </li>
-        {
+                      { isAdult ? "成人票" : "儿童票" }
+                  </label>
+              </li>
+              {
           isAdult && (
-            <li className="item">
+          <li className="item">
               <label className="label licenceNo">身份证</label>
               <input
                 type="text"
@@ -59,12 +59,12 @@ function Passenger(props) {
                 value={licenceNo}
                 onChange={(e) => { updatePassenger(id, { licenceNo: e.target.value }) }}
               />
-            </li>
+          </li>
           )
         }
-        {
+              {
           !isAdult && (
-            <li className="item arrow">
+          <li className="item arrow">
               <label className="label gender">性别</label>
               <input
                 type="text"
@@ -74,12 +74,12 @@ function Passenger(props) {
                 onClick={() => showGenderMenu(id)}
                 readOnly
               />
-            </li>
+          </li>
           )
         }
-        {
+              {
           !isAdult && (
-            <li className="item">
+          <li className="item">
               <label className="label birthday">出生日期</label>
               <input
                 type="text"
@@ -88,12 +88,12 @@ function Passenger(props) {
                 value={birthday}
                 onChange={(e) => { updatePassenger(id, { birthday: e.target.value }) }}
               />
-            </li>
+          </li>
           )
         }
-        {
+              {
           !isAdult && (
-            <li className="item arrow">
+          <li className="item arrow">
               <label className="label followAdult">同行成人</label>
               <input
                 type="text"
@@ -103,11 +103,11 @@ function Passenger(props) {
                 onClick={() => showFollowAdultMenu(id, followAdult)}
                 readOnly
               />
-            </li>
+          </li>
           )
         }
-      </ol>
-    </li>
+          </ol>
+      </li>
   )
 }
 

@@ -20,23 +20,23 @@ function Nav(props) {
   }, [date])
 
   return (
-    <div className="nav">
-      <div 
+      <div className="nav">
+          <div 
         className={classNames("nav-prev", { "nav-disabled": isPrevDisabled })}
         onClick={prevClick}
       >
-        前一天
-      </div>
-      <div 
+              前一天
+          </div>
+          <div 
         className={classNames("nav-next", { "nav-disabled": isNextDisabled })}
         onClick={nextClick}
       >
-        后一天
+              后一天
+          </div>
+          <span className="nav-date">
+              {currentTimeStr}
+          </span>
       </div>
-      <span className="nav-date">
-        {currentTimeStr}
-      </span>
-    </div>
   )
 }
 

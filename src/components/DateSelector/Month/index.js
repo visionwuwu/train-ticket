@@ -35,35 +35,35 @@ function Month(props) {
   }
   
   return (
-    <table className="date-table">
-      <thead>
-        <tr>
-          <td colSpan="7">
-            <h5>{dayjs(startingTimeInMonth).format('YYYY年MM月')}</h5>
-          </td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr className="date-table-weeks">
-          <th>一</th>
-          <th>二</th>
-          <th>三</th>
-          <th>四</th>
-          <th>五</th>
-          <th className="weekend">六</th>
-          <th className="weekend">七</th>
-        </tr>
-        {
+      <table className="date-table">
+          <thead>
+              <tr>
+                  <td colSpan="7">
+                      <h5>{dayjs(startingTimeInMonth).format('YYYY年MM月')}</h5>
+                  </td>
+              </tr>
+          </thead>
+          <tbody>
+              <tr className="date-table-weeks">
+                  <th>一</th>
+                  <th>二</th>
+                  <th>三</th>
+                  <th>四</th>
+                  <th>五</th>
+                  <th className="weekend">六</th>
+                  <th className="weekend">七</th>
+              </tr>
+              {
           weeks.map((week, idx) => (
-            <Week 
+              <Week 
               key={idx}
               days={week}
               onSelect={onSelect}
             />
           ))
         }
-      </tbody>
-    </table>
+          </tbody>
+      </table>
   )
 }
 

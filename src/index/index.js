@@ -7,8 +7,8 @@ import "./index.scss"
 import App from "./App.js"
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+    <Provider store={store}>
+        <App />
+    </Provider>,
   document.getElementById("root")
 )

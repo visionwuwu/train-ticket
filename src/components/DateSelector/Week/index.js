@@ -9,17 +9,17 @@ function Week(props) {
   } = props
 
   return (
-    <tr className="date-table-days">
-      {
+      <tr className="date-table-days">
+          {
         days.map((day, idx) => (
-          <Day
+            <Day
             key={idx}
             day={day}
             onSelect={onSelect}
           />
         ))
       }
-    </tr>
+      </tr>
   )
 }
 

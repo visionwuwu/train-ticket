@@ -24,9 +24,9 @@ function Day(props) {
   const dateString = now === day ? '今天' : new Date(day).getDate()
 
   return (
-    <td className={classNames(classes)} onClick={() => onSelect(day)}>
-      {dateString}
-    </td>
+      <td className={classNames(classes)} onClick={() => onSelect(day)}>
+          {dateString}
+      </td>
   )
 }
 

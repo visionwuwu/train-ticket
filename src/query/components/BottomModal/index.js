@@ -141,12 +141,12 @@ function BottomModal(props) {
   }
 
   return (
-    <div className={ classNames("bottom-modal", { hidden: !show }) }>
-      <div className="bottom-dialog">
-        <div className="bottom-dialog-content">
-          {/* 顶部title区域 */}
-          <div className="title">
-            <span 
+      <div className={ classNames("bottom-modal", { hidden: !show }) }>
+          <div className="bottom-dialog">
+              <div className="bottom-dialog-content">
+                  {/* 顶部title区域 */}
+                  <div className="title">
+                      <span 
               className={
                 classNames({
                   disabled: isRestDisabled
@@ -154,37 +154,37 @@ function BottomModal(props) {
               }
               onClick={onReset}
             >
-              重置
-            </span>
-            <span onClick={onSure}>确定</span>
-          </div>
-          <div className="options">
-            {
+                          重置
+                      </span>
+                      <span onClick={onSure}>确定</span>
+                  </div>
+                  <div className="options">
+                      {
               optionGroup.map(option => (
-                <Option
+                  <Option
                   key={option.title}
                   {...option}
                 />
               ))
             }
-          </div>
-          <Slider 
+                  </div>
+                  <Slider 
             title="始发时间"
             currentStartHours={localDepartTimeStart}
             currentEndHours={localDepartTimeEnd}
             onStartChanged={setLocalDepartTimeStart}
             onEndChanged={setLocalDepartTimeEnd}
           />
-          <Slider 
+                  <Slider 
             title="到达时间"
             currentStartHours={localArraiverTimeStart}
             currentEndHours={localArraiverTimeEnd}
             onStartChanged={setLocalArraiverTimeStart}
             onEndChanged={setLocalArraiverTimeEnd}
           />
-        </div>
+              </div>
+          </div>
       </div>
-    </div>
   )
 }
 

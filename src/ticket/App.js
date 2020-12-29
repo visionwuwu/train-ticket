@@ -76,7 +76,7 @@ function App(props) {
     setTrainNumberDispatch(trainNumber)
     setDepartDateDispatch(h0(dayjs(date).valueOf()))
     setSearchParsedDispatch(true)
-  }, [])
+  }, [setArriverStationDispatch, setDepartDateDispatch, setDepartStationDispatch, setSearchParsedDispatch, setTrainNumberDispatch])
 
   useEffect(() => {
     if (!searchParsed) return;
@@ -102,7 +102,7 @@ function App(props) {
       setTicketListDispatch(candidates)
     })
 
-  }, [searchParsed, departDate, trainNumber])
+  }, [searchParsed, departDate, trainNumber, setDepartTimeStrDispatch, setArriverTimeStrDispatch, setArriverDateDispatch, setDurationStrDispatch, setTicketListDispatch])
 
   const { isNextDisabled, isPrevDisabled, prevClick, nextClick } = useNav(departDate, prevDateDispatch, nextDateDispatch)
 
@@ -118,23 +118,23 @@ function App(props) {
   if (!searchParsed) return null
 
   return (
-    <div className="app">
-      <div className="header-wrapper">
-        <Header 
+      <div className="app">
+          <div className="header-wrapper">
+              <Header 
           title={trainNumber}
           onBack={onBack}
         />
-      </div>
-      <div className="nav-wrapper">
-        <Nav 
+          </div>
+          <div className="nav-wrapper">
+              <Nav 
           date={departDate}
           isPrevDisabled={isPrevDisabled}
           isNextDisabled={isNextDisabled}
           prevClick={prevClick}
           nextClick={nextClick}
         />
-      </div>
-      <Detail 
+          </div>
+          <Detail 
         departDate={departDate}
         arriverDate={arriverDate}
         departStation={departStation}
@@ -143,36 +143,36 @@ function App(props) {
         departTimeStr={departTimeStr}
         arriverTimeStr={arriverTimeStr}
         durationStr={durationStr}>
-          <span className="left"></span>
-          <span className="schedule" onClick={() => toggleScheduleVisibleDispatch()}>时刻列表</span>
-          <span className="right"></span>
-      </Detail>
-      {
+              <span className="left"></span>
+              <span className="schedule" onClick={() => toggleScheduleVisibleDispatch()}>时刻列表</span>
+              <span className="right"></span>
+          </Detail>
+          {
         isScheduleVisible && 
         <div className="mask" onClick={() => {
           toggleScheduleVisibleDispatch()
         }}>
-          <Suspense fallback={<div>loading...</div>}>
-            <Schedule 
+            <Suspense fallback={<div>loading...</div>}>
+                <Schedule 
               date= {departDate}
               trainNumber= {trainNumber}
               departStation= {departStation}
               arriverStation= {arriverStation}
             />
-          </Suspense>
+            </Suspense>
         </div>
       }
-      <TrainContext.Provider value={{
+          <TrainContext.Provider value={{
         trainNumber,
         departDate,
         departStation,
         arriverStation
       }}>
-        <Candidate 
+              <Candidate 
           ticketList={ticketListJS}
         />
-      </TrainContext.Provider>
-    </div>
+          </TrainContext.Provider>
+      </div>
   )
 }
 

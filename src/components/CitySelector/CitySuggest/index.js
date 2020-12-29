@@ -26,7 +26,7 @@ function CitySuggest(props) {
 
   useEffect(() => {
     fetchSearchResult(searchKey)
-  }, [searchKey])
+  }, [fetchSearchResult, searchKey])
 
   const fallCallback = useMemo(() => {
     if (!result.length) {
@@ -38,19 +38,19 @@ function CitySuggest(props) {
   }, [result, searchKey])
 
   return (
-    <div className="city-suggest">
-      <ul className="city-suggest-ul">
-        {
+      <div className="city-suggest">
+          <ul className="city-suggest-ul">
+              {
           fallCallback.map(item => (
-            <CitySuggestItem 
+              <CitySuggestItem 
               key={item.display}
               name={item.display}
               onSelect={onSelect}
             />
           ))
         }
-      </ul>
-    </div>
+          </ul>
+      </div>
   )
 }
 

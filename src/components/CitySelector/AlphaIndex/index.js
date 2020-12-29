@@ -7,9 +7,9 @@ function AlphaIndex(props) {
     onClick
   } = props;
   return (
-    <div className="city-index-item" onClick={()=> onClick(alpha)}>
-      {alpha}
-    </div>
+      <div className="city-index-item" onClick={()=> onClick(alpha)}>
+          {alpha}
+      </div>
   )
 }
 

@@ -10,9 +10,9 @@ function MenuItem(props) {
     onPress,
   } = props
   return (
-    <li className={classNames({active})} onClick={() => onPress(value)}>
-      {title}
-    </li>
+      <li className={classNames({active})} onClick={() => onPress(value)}>
+          {title}
+      </li>
   )
 }
 

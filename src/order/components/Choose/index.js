@@ -35,21 +35,21 @@ function Choose(props) {
   }
 
   return (
-    <div className="choose">
-      <div className="tip">在线选座</div>
-      <div className="container">
-        <div className="seats">
-          <div>窗</div>
-          {createSeat("A")}
-          {createSeat("B")}
-          {createSeat("C")}
-          <div>过道</div>
-          {createSeat("D")}
-          {createSeat("E")}
-          <div>窗</div>
-        </div>
+      <div className="choose">
+          <div className="tip">在线选座</div>
+          <div className="container">
+              <div className="seats">
+                  <div>窗</div>
+                  {createSeat("A")}
+                  {createSeat("B")}
+                  {createSeat("C")}
+                  <div>过道</div>
+                  {createSeat("D")}
+                  {createSeat("E")}
+                  <div>窗</div>
+              </div>
+          </div>
       </div>
-    </div>
   )
 }
 

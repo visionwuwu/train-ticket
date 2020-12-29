@@ -12,35 +12,35 @@ function Journey(props) {
   } = props;
 
   return (
-    <div className="journey">
-      <div 
+      <div className="journey">
+          <div 
         className="journey-station"
         onClick={ () => showCitySelector(true) }
       >
-        <input
+              <input
           className="journey-input journey-from"
           type="text"
           name="from"
           value={from}
           readOnly
         />
-      </div>
-      <div className="journey-switch" onClick={ () => exchangeFromTo() }>
-        <img src={switchSvg}  width="70" height="40" alt="switch" />
-      </div>
-      <div 
+          </div>
+          <div className="journey-switch" onClick={ () => exchangeFromTo() }>
+              <img src={switchSvg}  width="70" height="40" alt="switch" />
+          </div>
+          <div 
         className="journey-station"
         onClick={ () => showCitySelector(false) }
       >
-        <input 
+              <input 
           className="journey-input journey-to"
           type="text"
           name="to"
           readOnly
           value={to}
         />
+          </div>
       </div>
-    </div>
   )
 }
 

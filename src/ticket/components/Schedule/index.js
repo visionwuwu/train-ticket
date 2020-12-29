@@ -68,28 +68,28 @@ function Schedule(props) {
   if (!scheduleList.length) return null;
 
   return (
-    <div className="schedule">
-      <div className="dialog">
-        <h1>时刻列表</h1>
-        <div className="head">
-          <span className="station">车站</span>
-          <span className="arrtime">到达</span>
-          <span className="deptime">发车</span>
-          <span className="stoptime">停留时间</span>
-        </div>
-        <ul>
-          {
+      <div className="schedule">
+          <div className="dialog">
+              <h1>时刻列表</h1>
+              <div className="head">
+                  <span className="station">车站</span>
+                  <span className="arrtime">到达</span>
+                  <span className="deptime">发车</span>
+                  <span className="stoptime">停留时间</span>
+              </div>
+              <ul>
+                  {
             scheduleList.map((item, idx) => (
-              <ScheduleRow 
+                <ScheduleRow 
                 idx={idx + 1}
                 key={item.station}
                 {...item}
               />
             ))
           }
-        </ul>
+              </ul>
+          </div>
       </div>
-    </div>
   )
 }
 

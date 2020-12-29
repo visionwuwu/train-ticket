@@ -10,12 +10,12 @@ function Option(props) {
     dispatch
   } = props
   return (
-    <div className="option">
-      <h3>{title}</h3>
-      <ul>
-        {
+      <div className="option">
+          <h3>{title}</h3>
+          <ul>
+              {
           options.map(item => (
-            <Filter
+              <Filter
               key={item.name}
               {...item}
               checkedMap={checkedMap}
@@ -23,8 +23,8 @@ function Option(props) {
             />
           ))
         }
-      </ul>
-    </div>
+          </ul>
+      </div>
   )
 }
 

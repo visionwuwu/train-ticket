@@ -8,16 +8,16 @@ function List(props) {
     trainList
    } = props
   return (
-    <ul className="list">
-     {
+      <ul className="list">
+          {
        trainList.map(item => (
-         <ListItem 
+           <ListItem 
           key={item.trainNumber}
           {...item}
          />
        ))
      }
-    </ul>
+      </ul>
   )
 }
 

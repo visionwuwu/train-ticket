@@ -35,15 +35,15 @@ function Channel(props) {
   ])
 
   return (
-    <div className="channel">
-      <div className="middle">
-        <div className="name">{name}</div>
-        <div className="desc">{desc}</div>
+      <div className="channel">
+          <div className="middle">
+              <div className="name">{name}</div>
+              <div className="desc">{desc}</div>
+          </div>
+          <a href={url} className="buy-wrapper">
+              <div className="buy">买票</div>
+          </a>
       </div>
-      <a href={url} className="buy-wrapper">
-        <div className="buy">买票</div>
-      </a>
-    </div>
   )
 }
 

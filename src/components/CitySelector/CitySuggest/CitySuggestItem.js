@@ -7,9 +7,9 @@ function CitySUggestItem(props) {
     onSelect
   } = props;
   return (
-    <div className="city-suggest-li" onClick={ () => onSelect(name) }>
-      { name }
-    </div>
+      <div className="city-suggest-li" onClick={ () => onSelect(name) }>
+          { name }
+      </div>
   )
 }
 

@@ -178,12 +178,12 @@ function App(props) {
   if (!searchParsed) return null
 
   return (
-    <div className="app-content">
-      <Header 
+      <div className="app-content">
+          <Header 
         title="订单填写"
         onBack={onBack}
       />
-      <Detail 
+          <Detail 
         trainNumber={trainNumber}
         departDate={departDate}
         arriverDate={arriverDate}
@@ -193,36 +193,36 @@ function App(props) {
         departStation={departStation}
         arriverStation={arriverStation}
         >
-          <span
+              <span
             style={{ display: 'block' }}
             className="train-icon"
           ></span>
-      </Detail>
-      <Ticket 
+          </Detail>
+          <Ticket 
         seatType={seatType}
         price={price}
       />
-      <Passengers 
+          <Passengers 
         passengers={passengersJS}
         {...passengersCbs}
       />
-      {
+          {
         passengersJS.length > 0 &&
         <Choose 
           passengers={passengersJS}
           updatePassenger={passengersCbs.updatePassenger}
         />
       }
-      <Account 
+          <Account 
         price={price}
         length={passengersJS.length}
       />
-      <Menu
+          <Menu
         show={isMenuVisible}
         {...menuJS}
         {...menuCbs}
       />
-    </div>
+      </div>
   )
 }
 

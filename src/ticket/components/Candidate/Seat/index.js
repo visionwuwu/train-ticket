@@ -14,33 +14,33 @@ function Seat(props) {
   } = props
 
   return (
-    <li>
-      <div className="bar" onClick={() => onToggle(idx)}>
-        <span className="seat">{type}</span>
-        <span className="price">
-          <i>￥</i>
-          {priceMsg}
-        </span>
-        <span className="btn">{expended ? "收起" : "预定"}</span>
-        <span className="num">{ticketsLeft}</span>
-      </div>
-      <div 
+      <li>
+          <div className="bar" onClick={() => onToggle(idx)}>
+              <span className="seat">{type}</span>
+              <span className="price">
+                  <i>￥</i>
+                  {priceMsg}
+              </span>
+              <span className="btn">{expended ? "收起" : "预定"}</span>
+              <span className="num">{ticketsLeft}</span>
+          </div>
+          <div 
         className="channels"
         style={{
           height: expended ? channels.length * 55 + "px" : 0
         }}
       >
-        {
+              {
           channels.map(item => (
-            <Channel 
+              <Channel 
               key={item.name}
               {...item}
               type={type}
             />
           ))
         }
-      </div>
-    </li>
+          </div>
+      </li>
   )
 }
 

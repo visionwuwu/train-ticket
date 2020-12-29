@@ -24,9 +24,9 @@ function Passengers(props) {
   }, [passengers])
 
   return (
-    <div className="passengers">
-      <ul>
-        {
+      <div className="passengers">
+          <ul>
+              {
           passengers.map(passenger => {
             return <Passenger 
               key={passenger.id}
@@ -40,12 +40,12 @@ function Passengers(props) {
             />
           })
         }
-      </ul>
-      <div className="add">
-        <span className="adult" onClick={ () => addAdult()}>添加成人</span>
-        <span className="child" onClick={ () => addChild() }>添加儿童</span>
+          </ul>
+          <div className="add">
+              <span className="adult" onClick={ () => addAdult()}>添加成人</span>
+              <span className="child" onClick={ () => addChild() }>添加儿童</span>
+          </div>
       </div>
-    </div>
   )
 }
 

@@ -28,7 +28,7 @@ function CitySelector(props) {
   /* 城市搜索的返回事件回调 */
   const onBack = useCallback(() => {
     hideCitySelector(false)
-  }, [])
+  }, [hideCitySelector])
 
   /* 搜索城市 */
   const searchCity = useCallback((value) => {
@@ -57,22 +57,22 @@ function CitySelector(props) {
   
   /* 返回jsx */
   return (
-    <div className={ classNames("city-selector", { hidden: !show }) }>
-      <CitySearch 
+      <div className={ classNames("city-selector", { hidden: !show }) }>
+          <CitySearch 
         searchKey={key}
         setSearchKey={setSearchKey}
         onBack= {onBack}
         onChange={searchCity}
       />
-      {
+          {
         Boolean(key) && 
         <CitySuggest
           searchKey={key}
           onSelect={onSelect}
         />
       }
-      { renderCityList() }
-    </div>
+          { renderCityList() }
+      </div>
   )
 }
 

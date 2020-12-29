@@ -9,19 +9,19 @@ function CityItem(props) {
   } = props;
 
   return (
-    <ul className="city-ul">
-      <li className="city-li" key={title} data-cate={title}>{title}</li>
-      {
+      <ul className="city-ul">
+          <li className="city-li" key={title} data-cate={title}>{title}</li>
+          {
         cities.map(item => (
-        <li 
+            <li 
           className="city-li" 
           key={item.name} 
           onClick={() => onSelect(item.name)}
         >
-          { item.name }
-        </li>))
+                { item.name }
+            </li>))
       }
-    </ul>
+      </ul>
   )
 }
 

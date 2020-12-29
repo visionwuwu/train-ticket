@@ -19,61 +19,61 @@ function ScheduleRow(props) {
   } = props
 
   return (
-    <li>
-      <div 
+      <li>
+          <div 
         className={
           classNames("icon", {
             "icon-red": isArriverStation || isDepartStation
           })
         }
       >
-        {
+              {
           isDepartStation ? "出" : 
           isArriverStation ? "到" :
           idx.toString().padStart(2, "0")
         }
-      </div>
-      <div 
+          </div>
+          <div 
         className={
           classNames("row", {
             grey: beforeDepartStaion || afterArriverStation
           })
         }
       >
-        <span 
+              <span 
           className={
             classNames("station", {red: isDepartStation || isArriverStation})
           }
         >
-          { station }
-        </span>
-        <span
+                  { station }
+              </span>
+              <span
           className={
             classNames("arrtime", {
               red: isArriverStation
             })
           }
         >
-          {
+                  {
             isStartStation ? "始发站" : arriveTime
           }
-        </span>
-        <span 
+              </span>
+              <span 
           className={
             classNames("deptime", {
               red: isDepartStation
             })
           }
         >
-          { isEndStation ? "终到站" : departTime }
-        </span>
-        <span 
+                  { isEndStation ? "终到站" : departTime }
+              </span>
+              <span 
           className="stoptime"
         >
-          { isStartStation || isEndStation ? "-" : stay + "分" }
-        </span>
-      </div>
-    </li>
+                  { isStartStation || isEndStation ? "-" : stay + "分" }
+              </span>
+          </div>
+      </li>
   )
 }
 

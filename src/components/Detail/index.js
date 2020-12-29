@@ -25,27 +25,27 @@ function Detail(props) {
   const arriverDateStr = useMemo(() => format(arriverDate), [arriverDate])
 
   return (
-    <div className="detail">
-      <div className="content">
-        <div className="left">
-          <p className="city">{departStation}</p>
-          <p className="time">{departTimeStr}</p>
-          <p className="date">{departDateStr}</p>
-        </div>
-        <div className="middle">
-          <p className="train-name">{trainNumber}</p>
-          <p className="train-mid">
-            {props.children}
-          </p>
-          <p className="train-time">耗时 {durationStr}</p>
-        </div>
-        <div className="right">
-          <p className="city">{arriverStation}</p>
-          <p className="time">{arriverTimeStr}</p>
-          <p className="date">{arriverDateStr}</p>
-        </div>
+      <div className="detail">
+          <div className="content">
+              <div className="left">
+                  <p className="city">{departStation}</p>
+                  <p className="time">{departTimeStr}</p>
+                  <p className="date">{departDateStr}</p>
+              </div>
+              <div className="middle">
+                  <p className="train-name">{trainNumber}</p>
+                  <p className="train-mid">
+                      {props.children}
+                  </p>
+                  <p className="train-time">耗时 {durationStr}</p>
+              </div>
+              <div className="right">
+                  <p className="city">{arriverStation}</p>
+                  <p className="time">{arriverTimeStr}</p>
+                  <p className="date">{arriverDateStr}</p>
+              </div>
+          </div>
       </div>
-    </div>
   )
 }
 

@@ -60,7 +60,7 @@ function App(props) {
       exchangeFromTo: exchangeFromToDispatch,
       showCitySelector: showCitySelectorDispatch
     }
-  }, [])
+  }, [exchangeFromToDispatch, showCitySelectorDispatch])
   
   /* 城市选择浮层回调缓存 */
   const citySelectorCbs = useMemo(() => {
@@ -69,14 +69,14 @@ function App(props) {
       hideCitySelector: hideCitySelectorDispatch,
       onSelect: setSelectedCityDispatch
     }
-  }, [])
+  }, [cityDataDispatch, hideCitySelectorDispatch, setSelectedCityDispatch])
   
   /* 到达日期选择回调缓存  */
   const departDateCbs = useMemo(() => {
     return {
       onClick: showDateSelectorDispatch
     }
-  }, [])
+  }, [showDateSelectorDispatch])
   
   /* 日期选择浮层回调缓存 */
   const dateSelectorCbs = useMemo(() => {
@@ -84,50 +84,50 @@ function App(props) {
       onBack: hideDateSelectorDispatch,
       onSelect: setDepartDateDispatch
     }
-  }, [])
+  }, [hideDateSelectorDispatch, setDepartDateDispatch])
 
   /* 只选高铁回调缓存 */
   const highSpeedCbs= useMemo(() => {
     return {
       toggle: toggleHighSpeedDispatch
     }
-  }, [])
+  }, [toggleHighSpeedDispatch])
 
   return (
-    <div>
-      <div className="header-wrapper">
-        <Header 
+      <div>
+          <div className="header-wrapper">
+              <Header 
           title="火车票"
           onBack={ onBack }
         />
-      </div>
-      <form className="form" action="./query.html">
-        <Journey 
+          </div>
+          <form className="form" action="./query.html">
+              <Journey 
           from={ from }
           to={ to }
           {...journeyCbs}
         />
-        <DepartDate 
+              <DepartDate 
           date={departDate}
           {...departDateCbs}
         />
-        <HighSpeed 
+              <HighSpeed 
           highSpeed={highSpeed}
           {...highSpeedCbs}
         />
-        <Submit />
-      </form>
-      <CitySelector
+              <Submit />
+          </form>
+          <CitySelector
         show={isCitySelectorVisible}
         loading={isLoadingCityData}
         cityData={cityDataJS}
         {...citySelectorCbs}
       />
-      <DateSelector 
+          <DateSelector 
         show={isDateSelectorVisible}
         {...dateSelectorCbs}
       />
-    </div>
+      </div>
   )
 }
 

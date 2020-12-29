@@ -13,18 +13,18 @@ function Menu(props) {
   } = props
 
   return (
-    <div>
-      { show && <div className="menu-mask" onClick={() => hideMenu()}></div> }
-      <div
+      <div>
+          { show && <div className="menu-mask" onClick={() => hideMenu()}></div> }
+          <div
         className={
           classNames("menu", {
             show
           })
         }
       >
-        <div className="menu-title"></div>
-        <ul>
-          { options &&
+              <div className="menu-title"></div>
+              <ul>
+                  { options &&
             options.map(option => {
               return <MenuItem 
                 key={option.value}
@@ -33,9 +33,9 @@ function Menu(props) {
               />
             })
           }
-        </ul>
+              </ul>
+          </div>
       </div>
-    </div>
   )
 }
 

@@ -16,7 +16,7 @@ function Slider(props) {
 
   const startHandleRef = useRef()
   const endHandleRef = useRef()
-  
+
   const lastStartX = useRef()
   const lastEndX = useRef()
 
@@ -110,8 +110,11 @@ function Slider(props) {
     endHandleRef.current.addEventListener("touchmove", onEndTouchMove, false)
     return () => {
       startHandleRef.current.removeEventListener("touchstart", onStartTouchBegin, false)
+      // eslint-disable-next-line
       startHandleRef.current.removeEventListener("touchmove", onStartTouchMove, false)
+      // eslint-disable-next-line
       endHandleRef.current.removeEventListener("touchstart", onEndTouchBegin, false)
+      // eslint-disable-next-line
       endHandleRef.current.removeEventListener("touchmove", onEndTouchMove, false)
     }
   })
@@ -125,38 +128,38 @@ function Slider(props) {
   }, [endHours, onEndChanged])
 
   return (
-    <div className="option">
-      <h3>{title}</h3>
-      <div className="range-slider">
-        <div className="slider" ref={rangeRef}>
-          <div 
+      <div className="option">
+          <h3>{title}</h3>
+          <div className="range-slider">
+              <div className="slider" ref={rangeRef}>
+                  <div
             className="slider-range"
             style={{
               left: startPercent + "%",
               width: endPercent - startPercent + "%"
             }}
           ></div>
-          <i 
+                  <i
             ref={startHandleRef}
             className="slider-handle"
             style={{
               left: startPercent + "%"
             }}
           >
-            <span>{startText}</span>
-          </i>
-          <i 
+                      <span>{startText}</span>
+                  </i>
+                  <i
             ref={endHandleRef}
             className="slider-handle"
             style={{
               left: endPercent + "%"
             }}
           >
-            <span>{endText}</span>
-          </i>
-        </div>
+                      <span>{endText}</span>
+                  </i>
+              </div>
+          </div>
       </div>
-    </div>
   )
 }
 

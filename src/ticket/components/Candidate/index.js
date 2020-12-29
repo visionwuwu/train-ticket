@@ -13,11 +13,11 @@ function Candidate(props) {
   }, [])
 
   return (
-    <div className="candidate">
-      <ul>
-        {
+      <div className="candidate">
+          <ul>
+              {
           ticketList.map((seat, idx) => (
-            <Seat 
+              <Seat 
               expended={expendedIndex === idx}
               idx={idx}
               key={seat.type}
@@ -26,8 +26,8 @@ function Candidate(props) {
             />
           ))
         }
-      </ul>
-    </div>
+          </ul>
+      </div>
   )
 }
 

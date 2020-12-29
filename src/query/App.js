@@ -93,7 +93,7 @@ function App(props) {
     setArraiverTimeStartDispatch,
     setArraiverTimeEndDispatch,
   } = props
-  
+
   const trainListJS = trainList.toJS() || []
   const ticketTypesJS = ticketTypes.toJS() || []
   const trainTypesJS = trainTypes.toJS() || []
@@ -146,8 +146,8 @@ function App(props) {
       .setSearch("departTimeEnd", departTimeEnd)
       .setSearch("arraiverTimeStart", arraiverTimeStart)
       .setSearch("arraiverTimeEnd", arraiverTimeEnd)
-      toString()
-    
+    toString()
+
     fetchQueryData(url)
       .then(data => {
         const {
@@ -170,28 +170,14 @@ function App(props) {
         setDepartStationsDispatch(depStation)
         setArriverStationsDispatch(arrStation)
       })
-  }, [
-    from,
-    to,
-    departDate,
-    highSpeed,
-    orderTypes,
-    onlyTickets,
-    checkedTicketTypes,
-    checkedTrainTypes,
-    checkedDepartStations,
-    checkedArriverStations,
-    departTimeStart,
-    departTimeEnd,
-    arraiverTimeStart,
-    arraiverTimeEnd,
-  ])
-  
+    // eslint-disable-next-line
+  }, [from, to, departDate, highSpeed, orderTypes, onlyTickets, checkedTicketTypes, checkedTrainTypes, checkedDepartStations, checkedArriverStations, departTimeStart, departTimeEnd, arraiverTimeStart, arraiverTimeEnd, searchParsed])
+
   /* Header返回回调 */
   const onBack = useCallback(() => {
     window.history.back()
   }, [])
-  
+
   /* useNav自定义hooks */
   const {
     isPrevDisabled,
@@ -208,7 +194,7 @@ function App(props) {
       toggleOnlyTickets: toggleOnlyTicketsDispatch,
       toggleIsFiltersVisible: toggleIsFiltersVisibleDispatch
     }
-  }, [])
+  }, [toggleHighSpeedDispatch, toggleIsFiltersVisibleDispatch, toggleOnlyTicketsDispatch, toggleOrderTypesDispatch])
 
   /* bottom-modal回调缓存 */
   const bottomModalCbs = useMemo(() => {
@@ -240,24 +226,24 @@ function App(props) {
   }
 
   return (
-    <div>
-      <div className="header-wrapper">
-        <Header 
+      <div>
+          <div className="header-wrapper">
+              <Header
           title={`${from} ⇀ ${to}`}
           onBack={onBack}
         />
-      </div>
-      <Nav 
+          </div>
+          <Nav
         date={departDate}
         isPrevDisabled={isPrevDisabled}
         isNextDisabled={isNextDisabled}
         prevClick={prevClick}
         nextClick={nextClick}
       />
-      <List 
+          <List
         trainList={trainListJS}
       />
-      <Bottom 
+          <Bottom
         orderTypes={orderTypes}
         highSpeed={highSpeed}
         onlyTickets={onlyTickets}
@@ -272,8 +258,8 @@ function App(props) {
         arraiverTimeStart={arraiverTimeStart}
         arraiverTimeEnd={arraiverTimeEnd}
       />
-      { isFiltersVisible &&
-        <BottomModal
+          { isFiltersVisible &&
+          <BottomModal
           show={isFiltersVisible}
           ticketTypes={ticketTypesJS}
           trainTypes={trainTypesJS}
@@ -290,7 +276,7 @@ function App(props) {
           {...bottomModalCbs}
         />
       }
-    </div>
+      </div>
   )
 }
 

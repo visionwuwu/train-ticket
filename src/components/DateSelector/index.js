@@ -32,23 +32,23 @@ function DateSelector(props) {
  
     
   return (
-    <div className={ classNames("date-selector", { hidden: !show }) }>
-      <Header 
+      <div className={ classNames("date-selector", { hidden: !show }) }>
+          <Header 
         title="日期选择"
         onBack={onBack}
       />
-      <div className="date-selector-tables">
-        {
+          <div className="date-selector-tables">
+              {
           monthSequence.map(month => (
-            <Month
+              <Month
               key={month}
               startingTimeInMonth={month}
               onSelect={onSelect}
             />
           ))
         }
+          </div>
       </div>
-    </div>
   )
 }
 

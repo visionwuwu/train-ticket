@@ -15,11 +15,11 @@ function CityList(props) {
   }, [])
 
   return (
-    <div className="city-list">
-      <div className="city-cate">
-        {
+      <div className="city-list">
+          <div className="city-cate">
+              {
           cityList.map(item => (
-            <CityItem 
+              <CityItem 
               key={item.title}
               title={item.title}
               cities={item.citys}
@@ -27,19 +27,19 @@ function CityList(props) {
             />
           ))
         }
-      </div>
-      <div className="city-index">
-        {
+          </div>
+          <div className="city-index">
+              {
           alphabet.map(alpha => (
-            <AlphaIndex 
+              <AlphaIndex 
               key={alpha}
               alpha={alpha}
               onClick={toAlpha}
             />
           ))
         }
+          </div>
       </div>
-    </div>
   )
 }
 

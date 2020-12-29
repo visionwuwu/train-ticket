@@ -15,12 +15,12 @@ function Filter(props) {
   }, [value, checkedMap])
 
   return (
-    <li 
+      <li 
       className={classNames({checked})}
       onClick={() => dispatch({ type: "toggle", payload: value })}
     >
-      {name}
-    </li>
+          {name}
+      </li>
   )
 }
 

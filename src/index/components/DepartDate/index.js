@@ -35,10 +35,10 @@ function DepartDate(props) {
   let isToday = h0() === date;
 
   return (
-    <div className="depart-date" onClick={() => onClick(true)}>
-      <input type="hidden" name="date" value={timeStr} />
-      {timeStr} <span className="depart-week">{week} {isToday ? "(今天)" : ""}</span>
-    </div>
+      <div className="depart-date" onClick={() => onClick(true)}>
+          <input type="hidden" name="date" value={timeStr} />
+          {timeStr} <span className="depart-week">{week} {isToday ? "(今天)" : ""}</span>
+      </div>
   )
 }
 

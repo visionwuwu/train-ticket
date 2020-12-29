@@ -28,6 +28,7 @@ const defaultState = fromJS({
 })
 
 export default (state = defaultState, action) => {
+  let highSpeed, checkedTrainTypesJS, payloadJS, hasHighSpeed;
   switch(action.type) {
     case actionTypes.ACTION_SET_FROM:
       return state.set("from", action.payload);
@@ -36,8 +37,8 @@ export default (state = defaultState, action) => {
     case actionTypes.ACTION_SET_DEPART_DATE:
       return state.set("departDate", action.payload);
     case actionTypes.ACTION_SET_HIGH_SPEED:
-      const highSpeed = action.payload
-      const checkedTrainTypesJS = state.get("checkedTrainTypes").toJS()
+      highSpeed = action.payload
+      checkedTrainTypesJS = state.get("checkedTrainTypes").toJS()
       if (highSpeed) {
         checkedTrainTypesJS[1] = "1"
         checkedTrainTypesJS[5] = "5"
@@ -61,8 +62,8 @@ export default (state = defaultState, action) => {
     case actionTypes.ACTION_SET_TRAIN_TYPES:
       return state.set("trainTypes", action.payload);
     case actionTypes.ACTION_SET_CHECKED_TRAIN_TYPES:
-      const payloadJS = action.payload.toJS()
-      const hasHighSpeed = (1 in payloadJS && 5 in payloadJS);
+      payloadJS = action.payload.toJS()
+      hasHighSpeed = (1 in payloadJS && 5 in payloadJS);
       return state.merge({checkedTrainTypes: action.payload, highSpeed: hasHighSpeed})
     case actionTypes.ACTION_SET_DEPART_STATIONS:
       return state.set("departStations", action.payload);
