@@ -4,10 +4,10 @@
  * @returns {*} 时间戳
  */
 export const h0 = (timeStamp = Date.now()) => {
-  let d = new Date(timeStamp);
-  d.setHours(0);
-  d.setMinutes(0);
-  d.setSeconds(0);
-  d.setMilliseconds(0);
-  return d.getTime();
+    let d = new Date(timeStamp);
+    d.setHours(0);
+    d.setMinutes(0);
+    d.setSeconds(0);
+    d.setMilliseconds(0);
+    return d.getTime();
 };

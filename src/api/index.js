@@ -2,7 +2,7 @@
  * 获取城市列表数据
  */
 export const fetchCityData = () => {
-  return fetch("/rest/cities");
+    return fetch('/rest/cities');
 };
 
 /**
@@ -10,5 +10,5 @@ export const fetchCityData = () => {
  * @param {*} searchKey
  */
 export const findSuggestBySearchKey = (searchKey) => {
-  return fetch("/rest/search?key=" + encodeURIComponent(searchKey));
+    return fetch('/rest/search?key=' + encodeURIComponent(searchKey));
 };

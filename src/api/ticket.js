@@ -3,7 +3,7 @@
  * @param {*} url
  */
 export const fetchTicketData = (url) => {
-  return fetch(url).then((res) => res.json());
+    return fetch(url).then((res) => res.json());
 };
 
 /**
@@ -11,5 +11,5 @@ export const fetchTicketData = (url) => {
  * @param {*} url
  */
 export const fetchScheduleData = (url) => {
-  return fetch(url).then((res) => res.json());
+    return fetch(url).then((res) => res.json());
 };

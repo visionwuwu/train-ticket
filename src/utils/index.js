@@ -5,28 +5,28 @@
  * @param {*} options
  */
 export function throttle(timer, doSome, options) {
-  let timeid,
-    old = 0,
-    now;
-  return function (...args) {
-    now = Date.now();
-    if (!options.leading) {
-      old = now;
-    }
-    if (now - old > timer) {
-      if (timeid) {
-        clearTimeout(timeid);
-      }
-      old = now;
-      doSome.apply(this, args);
-    } else if (!timeid && options.trailing) {
-      timeid = setTimeout((_) => {
-        old = Date.now();
-        doSome.apply(this, args);
-        timeid = null;
-      }, timer);
-    }
-  };
+    let timeid,
+        old = 0,
+        now;
+    return function (...args) {
+        now = Date.now();
+        if (!options.leading) {
+            old = now;
+        }
+        if (now - old > timer) {
+            if (timeid) {
+                clearTimeout(timeid);
+            }
+            old = now;
+            doSome.apply(this, args);
+        } else if (!timeid && options.trailing) {
+            timeid = setTimeout((_) => {
+                old = Date.now();
+                doSome.apply(this, args);
+                timeid = null;
+            }, timer);
+        }
+    };
 }
 
 /**
@@ -34,5 +34,5 @@ export function throttle(timer, doSome, options) {
  * @param {*} target
  */
 export const isEmptyObj = (target) => {
-  return target !== null && Object.keys(target).length === 0;
+    return target !== null && Object.keys(target).length === 0;
 };
