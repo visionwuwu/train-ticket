@@ -1,7 +1,7 @@
 /**
  * 获取订单页面数据
- * @param {*} url 
+ * @param {*} url
  */
 export const fetchOrderData = (url) => {
-  return fetch(url).then(res => res.json())
-}
+  return fetch(url).then((res) => res.json());
+};

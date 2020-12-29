@@ -1,6 +1,6 @@
-import React, { memo } from 'react'
-import PropTypes from "prop-types"
-import classNames from "classnames"
+import React, { memo } from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
 
 function ScheduleRow(props) {
   const {
@@ -15,66 +15,54 @@ function ScheduleRow(props) {
     beforeDepartStaion,
     afterArriverStation,
     isDepartStation,
-    isArriverStation
-  } = props
+    isArriverStation,
+  } = props;
 
   return (
       <li>
-          <div 
-        className={
-          classNames("icon", {
-            "icon-red": isArriverStation || isDepartStation
-          })
-        }
+          <div
+        className={classNames("icon", {
+          "icon-red": isArriverStation || isDepartStation,
+        })}
       >
-              {
-          isDepartStation ? "出" : 
-          isArriverStation ? "到" :
-          idx.toString().padStart(2, "0")
-        }
+              {isDepartStation
+          ? "出"
+          : isArriverStation
+          ? "到"
+          : idx.toString().padStart(2, "0")}
           </div>
-          <div 
-        className={
-          classNames("row", {
-            grey: beforeDepartStaion || afterArriverStation
-          })
-        }
+          <div
+        className={classNames("row", {
+          grey: beforeDepartStaion || afterArriverStation,
+        })}
       >
-              <span 
-          className={
-            classNames("station", {red: isDepartStation || isArriverStation})
-          }
+              <span
+          className={classNames("station", {
+            red: isDepartStation || isArriverStation,
+          })}
         >
-                  { station }
+                  {station}
               </span>
               <span
-          className={
-            classNames("arrtime", {
-              red: isArriverStation
-            })
-          }
+          className={classNames("arrtime", {
+            red: isArriverStation,
+          })}
         >
-                  {
-            isStartStation ? "始发站" : arriveTime
-          }
+                  {isStartStation ? "始发站" : arriveTime}
               </span>
-              <span 
-          className={
-            classNames("deptime", {
-              red: isDepartStation
-            })
-          }
+              <span
+          className={classNames("deptime", {
+            red: isDepartStation,
+          })}
         >
-                  { isEndStation ? "终到站" : departTime }
+                  {isEndStation ? "终到站" : departTime}
               </span>
-              <span 
-          className="stoptime"
-        >
-                  { isStartStation || isEndStation ? "-" : stay + "分" }
+              <span className="stoptime">
+                  {isStartStation || isEndStation ? "-" : stay + "分"}
               </span>
           </div>
       </li>
-  )
+  );
 }
 
 ScheduleRow.propTypes = {
@@ -89,7 +77,6 @@ ScheduleRow.propTypes = {
   afterArriverStation: PropTypes.bool,
   isDepartStation: PropTypes.bool,
   isArriverStation: PropTypes.bool,
-}
+};
 
-export default memo(ScheduleRow)
-
+export default memo(ScheduleRow);

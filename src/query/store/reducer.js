@@ -1,7 +1,7 @@
-import * as actionTypes from "./constants"
-import { fromJS } from "immutable"
-import { h0 } from "../../utils/times"
-import { ORDER_DEPART } from "./constants"
+import * as actionTypes from "./constants";
+import { fromJS } from "immutable";
+import { h0 } from "../../utils/times";
+import { ORDER_DEPART } from "./constants";
 
 const defaultState = fromJS({
   from: null, // 出发地
@@ -25,11 +25,11 @@ const defaultState = fromJS({
   arraiverTimeStart: 0, // 终点开始
   arraiverTimeEnd: 24, // 终点结束
   searchParsed: false, // url查询参数解析完成与否
-})
+});
 
 export default (state = defaultState, action) => {
   let highSpeed, checkedTrainTypesJS, payloadJS, hasHighSpeed;
-  switch(action.type) {
+  switch (action.type) {
     case actionTypes.ACTION_SET_FROM:
       return state.set("from", action.payload);
     case actionTypes.ACTION_SET_TO:
@@ -37,16 +37,19 @@ export default (state = defaultState, action) => {
     case actionTypes.ACTION_SET_DEPART_DATE:
       return state.set("departDate", action.payload);
     case actionTypes.ACTION_SET_HIGH_SPEED:
-      highSpeed = action.payload
-      checkedTrainTypesJS = state.get("checkedTrainTypes").toJS()
+      highSpeed = action.payload;
+      checkedTrainTypesJS = state.get("checkedTrainTypes").toJS();
       if (highSpeed) {
-        checkedTrainTypesJS[1] = "1"
-        checkedTrainTypesJS[5] = "5"
+        checkedTrainTypesJS[1] = "1";
+        checkedTrainTypesJS[5] = "5";
       } else {
-        delete checkedTrainTypesJS[1]
-        delete checkedTrainTypesJS[5]
+        delete checkedTrainTypesJS[1];
+        delete checkedTrainTypesJS[5];
       }
-      return state.merge(state, {highSpeed, checkedTrainTypes: fromJS(checkedTrainTypesJS)})
+      return state.merge(state, {
+        highSpeed,
+        checkedTrainTypes: fromJS(checkedTrainTypesJS),
+      });
     case actionTypes.ACTION_SET_TRAIN_LIST:
       return state.set("trainList", action.payload);
     case actionTypes.ACTION_SET_ORDER_TYPES:
@@ -62,9 +65,12 @@ export default (state = defaultState, action) => {
     case actionTypes.ACTION_SET_TRAIN_TYPES:
       return state.set("trainTypes", action.payload);
     case actionTypes.ACTION_SET_CHECKED_TRAIN_TYPES:
-      payloadJS = action.payload.toJS()
-      hasHighSpeed = (1 in payloadJS && 5 in payloadJS);
-      return state.merge({checkedTrainTypes: action.payload, highSpeed: hasHighSpeed})
+      payloadJS = action.payload.toJS();
+      hasHighSpeed = 1 in payloadJS && 5 in payloadJS;
+      return state.merge({
+        checkedTrainTypes: action.payload,
+        highSpeed: hasHighSpeed,
+      });
     case actionTypes.ACTION_SET_DEPART_STATIONS:
       return state.set("departStations", action.payload);
     case actionTypes.ACTION_SET_CHECKED_DEPART_STATIONS:
@@ -83,7 +89,7 @@ export default (state = defaultState, action) => {
       return state.set("arraiverTimeEnd", action.payload);
     case actionTypes.ACTION_SET_SEARCH_PARSE:
       return state.set("searchParsed", action.payload);
-    default: 
-      return state
+    default:
+      return state;
   }
-}
+};

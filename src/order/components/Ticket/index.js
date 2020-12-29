@@ -1,12 +1,9 @@
-import React, { memo } from 'react'
-import PropTypes from "prop-types"
-import "./index.scss"
+import React, { memo } from "react";
+import PropTypes from "prop-types";
+import "./index.scss";
 
 function Ticket(props) {
-  const {
-    price,
-    seatType
-  } = props
+  const { price, seatType } = props;
   return (
       <div className="ticket">
           <p>
@@ -15,12 +12,12 @@ function Ticket(props) {
           </p>
           <div className="label">坐席</div>
       </div>
-  )
+  );
 }
 
 Ticket.propTypes = {
   price: PropTypes.number,
   seatType: PropTypes.string,
-}
+};
 
-export default memo(Ticket)
+export default memo(Ticket);

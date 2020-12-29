@@ -1,7 +1,7 @@
-import React, { memo, useMemo } from 'react'
-import PropTypes from "prop-types"
-import Passenger from "./Passenger"
-import "./index.scss"
+import React, { memo, useMemo } from "react";
+import PropTypes from "prop-types";
+import Passenger from "./Passenger";
+import "./index.scss";
 
 function Passengers(props) {
   const {
@@ -13,22 +13,22 @@ function Passengers(props) {
     showGenderMenu,
     showTicketTypeMenu,
     showFollowAdultMenu,
-  } = props
+  } = props;
 
   const nameMap = useMemo(() => {
-    const ret = {}
+    const ret = {};
     for (let passenger of passengers) {
-      ret[passenger.id] = passenger.name
+      ret[passenger.id] = passenger.name;
     }
-    return ret
-  }, [passengers])
+    return ret;
+  }, [passengers]);
 
   return (
       <div className="passengers">
           <ul>
-              {
-          passengers.map(passenger => {
-            return <Passenger 
+              {passengers.map((passenger) => {
+          return (
+              <Passenger
               key={passenger.id}
               {...passenger}
               followAdultName={nameMap[passenger.followAdult]}
@@ -38,15 +38,19 @@ function Passengers(props) {
               showTicketTypeMenu={showTicketTypeMenu}
               showFollowAdultMenu={showFollowAdultMenu}
             />
-          })
-        }
+          );
+        })}
           </ul>
           <div className="add">
-              <span className="adult" onClick={ () => addAdult()}>添加成人</span>
-              <span className="child" onClick={ () => addChild() }>添加儿童</span>
+              <span className="adult" onClick={() => addAdult()}>
+                  添加成人
+              </span>
+              <span className="child" onClick={() => addChild()}>
+                  添加儿童
+              </span>
           </div>
       </div>
-  )
+  );
 }
 
 Passengers.propTypes = {
@@ -58,6 +62,6 @@ Passengers.propTypes = {
   showGenderMenu: PropTypes.func.isRequired,
   showTicketTypeMenu: PropTypes.func.isRequired,
   showFollowAdultMenu: PropTypes.func.isRequired,
-}
+};
 
-export default memo(Passengers)
+export default memo(Passengers);

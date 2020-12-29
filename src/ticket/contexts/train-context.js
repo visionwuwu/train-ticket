@@ -1,5 +1,5 @@
-import { createContext } from "react"
+import { createContext } from "react";
 
-const trainContext = createContext()
+const trainContext = createContext();
 
-export default trainContext
+export default trainContext;

@@ -1,6 +1,6 @@
-import React, { memo } from 'react'
-import Channel from "../Channel"
-import PropTypes from "prop-types"
+import React, { memo } from "react";
+import Channel from "../Channel";
+import PropTypes from "prop-types";
 
 function Seat(props) {
   const {
@@ -10,8 +10,8 @@ function Seat(props) {
     ticketsLeft,
     type,
     expended,
-    onToggle
-  } = props
+    onToggle,
+  } = props;
 
   return (
       <li>
@@ -24,24 +24,18 @@ function Seat(props) {
               <span className="btn">{expended ? "收起" : "预定"}</span>
               <span className="num">{ticketsLeft}</span>
           </div>
-          <div 
+          <div
         className="channels"
         style={{
-          height: expended ? channels.length * 55 + "px" : 0
+          height: expended ? channels.length * 55 + "px" : 0,
         }}
       >
-              {
-          channels.map(item => (
-              <Channel 
-              key={item.name}
-              {...item}
-              type={type}
-            />
-          ))
-        }
+              {channels.map((item) => (
+                  <Channel key={item.name} {...item} type={type} />
+        ))}
           </div>
       </li>
-  )
+  );
 }
 
 Seat.propTypes = {
@@ -51,8 +45,7 @@ Seat.propTypes = {
   ticketsLeft: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   expended: PropTypes.bool.isRequired,
-  onToggle: PropTypes.func.isRequired
-}
+  onToggle: PropTypes.func.isRequired,
+};
 
-export default memo(Seat)
-
+export default memo(Seat);

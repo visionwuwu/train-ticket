@@ -1,11 +1,12 @@
-import * as actionTypes from "./constants"
-import { fromJS } from "immutable"
+import * as actionTypes from "./constants";
+import { fromJS } from "immutable";
 import { getCityDataCache } from "../../utils/city-data";
-import { h0 } from "../../utils/times"
+import { h0 } from "../../utils/times";
 
-const {expires, cityData} = getCityDataCache()
+const { expires, cityData } = getCityDataCache();
 const hasExpired = Date.now() > expires;
-const defaultCityData = (!hasExpired && cityData && cityData.length > 0) ? cityData : []
+const defaultCityData =
+  !hasExpired && cityData && cityData.length > 0 ? cityData : [];
 
 const defaultState = fromJS({
   from: "北京", // 始发站
@@ -16,30 +17,30 @@ const defaultState = fromJS({
   isLoadingCityData: false, // 城市浮层数据加载开关，节流使用
   isDateSelectorVisible: false, // 日期选择开关
   departDate: h0(new Date().getTime()), // 到达目的地日期
-  highSpeed: false // 高铁选择开关
-})
+  highSpeed: false, // 高铁选择开关
+});
 
 export default (state = defaultState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case actionTypes.ACTION_SET_FROM:
-      return state.set("from", action.payload)
+      return state.set("from", action.payload);
     case actionTypes.ACTION_SET_TO:
-      return state.set("to", action.payload)
+      return state.set("to", action.payload);
     case actionTypes.ACTION_SET_IS_CITY_SELECTOR_VISIBLE:
-      return state.set("isCitySelectorVisible", action.payload)
+      return state.set("isCitySelectorVisible", action.payload);
     case actionTypes.ACTION_SET_IS_LOADING_CITY_DATA:
-      return state.set("isLoadingCityData", action.payload)
+      return state.set("isLoadingCityData", action.payload);
     case actionTypes.ACTION_SET_CURRENT_SELECTING_LEFT_CITY:
-      return state.set("currentSelectingLeftCity", action.payload)
+      return state.set("currentSelectingLeftCity", action.payload);
     case actionTypes.ACTION_SET_CITY_DATA:
-      return state.set("cityData", action.payload)
+      return state.set("cityData", action.payload);
     case actionTypes.ACTION_SET_IS_DATE_SELECTOR_VISIBLE:
-      return state.set("isDateSelectorVisible", action.payload)
+      return state.set("isDateSelectorVisible", action.payload);
     case actionTypes.ACTION_SET_DEPART_DATE:
-      return state.set("departDate", action.payload)
+      return state.set("departDate", action.payload);
     case actionTypes.ACTION_SET_HIGH_SPEED:
-      return state.set("highSpeed", action.payload)
-    default: 
-      return state
+      return state.set("highSpeed", action.payload);
+    default:
+      return state;
   }
-}
+};

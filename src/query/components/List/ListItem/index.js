@@ -1,6 +1,6 @@
-import React, { memo, useMemo } from 'react'
-import PropTypes from "prop-types"
-import URI from "urijs"
+import React, { memo, useMemo } from "react";
+import PropTypes from "prop-types";
+import URI from "urijs";
 
 function ListItem(props) {
   const {
@@ -12,16 +12,16 @@ function ListItem(props) {
     date,
     time,
     priceMsg,
-    dayAfter
-  } = props
+    dayAfter,
+  } = props;
 
   const url = useMemo(() => {
     return new URI("ticket.html")
       .setSearch("aStation", aStation)
       .setSearch("dStation", dStation)
       .setSearch("trainNumber", trainNumber)
-      .setSearch("date", date)
-  }, [ dStation, aStation, trainNumber, date])
+      .setSearch("date", date);
+  }, [dStation, aStation, trainNumber, date]);
 
   return (
       <li className="list-item">
@@ -56,7 +56,7 @@ function ListItem(props) {
               </span>
           </a>
       </li>
-  )
+  );
 }
 
 ListItem.propTypes = {
@@ -69,6 +69,6 @@ ListItem.propTypes = {
   time: PropTypes.string.isRequired,
   priceMsg: PropTypes.string.isRequired,
   dayAfter: PropTypes.string.isRequired,
-}
+};
 
-export default memo(ListItem)
+export default memo(ListItem);

@@ -1,16 +1,16 @@
-import React, { useCallback, useEffect, Suspense, lazy } from 'react'
-import { connect } from "react-redux"
-import Header from "../components/Header"
-import Nav from "../components/Nav"
-import Detail from "../components/Detail"
-import Candidate from "./components/Candidate"
-import URI from "urijs"
-import dayjs from "dayjs"
-import { h0 } from '../utils/times'
-import { fetchTicketData } from '../api/ticket'
-import useNav from "../common/hooks/useNav"
-import TrainContext from "./contexts/train-context"
-import "./App.scss"
+import React, { useCallback, useEffect, Suspense, lazy } from "react";
+import { connect } from "react-redux";
+import Header from "../components/Header";
+import Nav from "../components/Nav";
+import Detail from "../components/Detail";
+import Candidate from "./components/Candidate";
+import URI from "urijs";
+import dayjs from "dayjs";
+import { h0 } from "../utils/times";
+import { fetchTicketData } from "../api/ticket";
+import useNav from "../common/hooks/useNav";
+import TrainContext from "./contexts/train-context";
+import "./App.scss";
 import {
   setDepartDate,
   setArriverDate,
@@ -24,8 +24,8 @@ import {
   toggleScheduleVisible,
   setSearchParsed,
   prevDate,
-  nextDate
-} from "./store/actionCreators"
+  nextDate,
+} from "./store/actionCreators";
 
 function App(props) {
   const {
@@ -39,8 +39,8 @@ function App(props) {
     durationStr,
     isScheduleVisible,
     ticketList,
-    searchParsed
-  } = props
+    searchParsed,
+  } = props;
 
   const {
     setDepartDateDispatch,
@@ -55,78 +55,82 @@ function App(props) {
     toggleScheduleVisibleDispatch,
     setSearchParsedDispatch,
     prevDateDispatch,
-    nextDateDispatch
-  } = props
-  
-  const ticketListJS = ticketList.toJS() || []
+    nextDateDispatch,
+  } = props;
 
-  const Schedule = lazy(() => import("./components/Schedule"))
+  const ticketListJS = ticketList.toJS() || [];
+
+  const Schedule = lazy(() => import("./components/Schedule"));
 
   useEffect(() => {
-    const queies = URI.parseQuery(window.location.search)
-    const {
-      dStation,
-      aStation,
-      trainNumber,
-      date
-    } = queies;
+    const queies = URI.parseQuery(window.location.search);
+    const { dStation, aStation, trainNumber, date } = queies;
 
-    setDepartStationDispatch(dStation)
-    setArriverStationDispatch(aStation)
-    setTrainNumberDispatch(trainNumber)
-    setDepartDateDispatch(h0(dayjs(date).valueOf()))
-    setSearchParsedDispatch(true)
-  }, [setArriverStationDispatch, setDepartDateDispatch, setDepartStationDispatch, setSearchParsedDispatch, setTrainNumberDispatch])
+    setDepartStationDispatch(dStation);
+    setArriverStationDispatch(aStation);
+    setTrainNumberDispatch(trainNumber);
+    setDepartDateDispatch(h0(dayjs(date).valueOf()));
+    setSearchParsedDispatch(true);
+  }, [
+    setArriverStationDispatch,
+    setDepartDateDispatch,
+    setDepartStationDispatch,
+    setSearchParsedDispatch,
+    setTrainNumberDispatch,
+  ]);
 
   useEffect(() => {
     if (!searchParsed) return;
-    
+
     const url = new URI("/rest/ticket")
       .setSearch("date", dayjs(departDate).format("YYYY-MM-DD"))
       .setSearch("trainNumber", trainNumber)
-      .toString()
+      .toString();
 
-    fetchTicketData(url).then(data => {
-      const {detail, candidates} = data
-      const {
-        departTimeStr,
-        arriveTimeStr,
-        arriveDate,
-        durationStr
-      } = detail;
+    fetchTicketData(url).then((data) => {
+      const { detail, candidates } = data;
+      const { departTimeStr, arriveTimeStr, arriveDate, durationStr } = detail;
 
-      setDepartTimeStrDispatch(departTimeStr)
-      setArriverTimeStrDispatch(arriveTimeStr)
-      setArriverDateDispatch(arriveDate)
-      setDurationStrDispatch(durationStr)
-      setTicketListDispatch(candidates)
-    })
+      setDepartTimeStrDispatch(departTimeStr);
+      setArriverTimeStrDispatch(arriveTimeStr);
+      setArriverDateDispatch(arriveDate);
+      setDurationStrDispatch(durationStr);
+      setTicketListDispatch(candidates);
+    });
+  }, [
+    searchParsed,
+    departDate,
+    trainNumber,
+    setDepartTimeStrDispatch,
+    setArriverTimeStrDispatch,
+    setArriverDateDispatch,
+    setDurationStrDispatch,
+    setTicketListDispatch,
+  ]);
 
-  }, [searchParsed, departDate, trainNumber, setDepartTimeStrDispatch, setArriverTimeStrDispatch, setArriverDateDispatch, setDurationStrDispatch, setTicketListDispatch])
-
-  const { isNextDisabled, isPrevDisabled, prevClick, nextClick } = useNav(departDate, prevDateDispatch, nextDateDispatch)
+  const { isNextDisabled, isPrevDisabled, prevClick, nextClick } = useNav(
+    departDate,
+    prevDateDispatch,
+    nextDateDispatch
+  );
 
   useEffect(() => {
-    document.title = trainNumber
-  }, [trainNumber])
+    document.title = trainNumber;
+  }, [trainNumber]);
 
   const onBack = useCallback(() => {
-    window.history.back()
-  }, [])
+    window.history.back();
+  }, []);
 
-
-  if (!searchParsed) return null
+  if (!searchParsed) return null;
 
   return (
       <div className="app">
           <div className="header-wrapper">
-              <Header 
-          title={trainNumber}
-          onBack={onBack}
-        />
+              <Header title={trainNumber} onBack={onBack} />
           </div>
           <div className="nav-wrapper">
-              <Nav 
+              <Nav
           date={departDate}
           isPrevDisabled={isPrevDisabled}
           isNextDisabled={isNextDisabled}
@@ -134,7 +138,7 @@ function App(props) {
           nextClick={nextClick}
         />
           </div>
-          <Detail 
+          <Detail
         departDate={departDate}
         arriverDate={arriverDate}
         departStation={departStation}
@@ -142,38 +146,46 @@ function App(props) {
         trainNumber={trainNumber}
         departTimeStr={departTimeStr}
         arriverTimeStr={arriverTimeStr}
-        durationStr={durationStr}>
+        durationStr={durationStr}
+      >
               <span className="left"></span>
-              <span className="schedule" onClick={() => toggleScheduleVisibleDispatch()}>时刻列表</span>
+              <span
+          className="schedule"
+          onClick={() => toggleScheduleVisibleDispatch()}
+        >
+                  时刻列表
+              </span>
               <span className="right"></span>
           </Detail>
-          {
-        isScheduleVisible && 
-        <div className="mask" onClick={() => {
-          toggleScheduleVisibleDispatch()
-        }}>
-            <Suspense fallback={<div>loading...</div>}>
-                <Schedule 
-              date= {departDate}
-              trainNumber= {trainNumber}
-              departStation= {departStation}
-              arriverStation= {arriverStation}
+          {isScheduleVisible && (
+          <div
+          className="mask"
+          onClick={() => {
+            toggleScheduleVisibleDispatch();
+          }}
+        >
+              <Suspense fallback={<div>loading...</div>}>
+                  <Schedule
+              date={departDate}
+              trainNumber={trainNumber}
+              departStation={departStation}
+              arriverStation={arriverStation}
             />
-            </Suspense>
-        </div>
-      }
-          <TrainContext.Provider value={{
-        trainNumber,
-        departDate,
-        departStation,
-        arriverStation
-      }}>
-              <Candidate 
-          ticketList={ticketListJS}
-        />
+              </Suspense>
+          </div>
+      )}
+          <TrainContext.Provider
+        value={{
+          trainNumber,
+          departDate,
+          departStation,
+          arriverStation,
+        }}
+      >
+              <Candidate ticketList={ticketListJS} />
           </TrainContext.Provider>
       </div>
-  )
+  );
 }
 
 const mapStateToProps = (state) => ({
@@ -188,50 +200,50 @@ const mapStateToProps = (state) => ({
   isScheduleVisible: state.getIn(["ticket", "isScheduleVisible"]),
   ticketList: state.getIn(["ticket", "ticketList"]),
   searchParsed: state.getIn(["ticket", "searchParsed"]),
-})
+});
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setDepartDateDispatch(departDate) {
-      dispatch(setDepartDate(departDate))
+      dispatch(setDepartDate(departDate));
     },
     setArriverDateDispatch(arriverDate) {
-      dispatch(setArriverDate(arriverDate))
+      dispatch(setArriverDate(arriverDate));
     },
     setDepartStationDispatch(departStation) {
-      dispatch(setDepartStation(departStation))
+      dispatch(setDepartStation(departStation));
     },
     setArriverStationDispatch(arriverStation) {
-      dispatch(setArriverStation(arriverStation))
+      dispatch(setArriverStation(arriverStation));
     },
     setTrainNumberDispatch(trainNumber) {
-      dispatch(setTrainNumber(trainNumber))
+      dispatch(setTrainNumber(trainNumber));
     },
     setDepartTimeStrDispatch(departTimeStr) {
-      dispatch(setDepartTimeStr(departTimeStr))
+      dispatch(setDepartTimeStr(departTimeStr));
     },
     setArriverTimeStrDispatch(arriverTimeStr) {
-      dispatch(setArriverTimeStr(arriverTimeStr))
+      dispatch(setArriverTimeStr(arriverTimeStr));
     },
     setDurationStrDispatch(durationStr) {
-      dispatch(setDurationStr(durationStr))
+      dispatch(setDurationStr(durationStr));
     },
     setTicketListDispatch(ticketList) {
-      dispatch(setTicketList(ticketList))
+      dispatch(setTicketList(ticketList));
     },
     toggleScheduleVisibleDispatch() {
-      dispatch(toggleScheduleVisible())
+      dispatch(toggleScheduleVisible());
     },
     setSearchParsedDispatch(searchParsed) {
-      dispatch(setSearchParsed(searchParsed))
+      dispatch(setSearchParsed(searchParsed));
     },
     prevDateDispatch() {
-      dispatch(prevDate())
+      dispatch(prevDate());
     },
     nextDateDispatch() {
-      dispatch(nextDate())
-    }
-  }
-}
+      dispatch(nextDate());
+    },
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App);

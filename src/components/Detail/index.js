@@ -1,12 +1,12 @@
-import React, { memo, useMemo } from 'react'
-import PropTypes from "prop-types"
-import dayjs from "dayjs"
-import "dayjs/locale/zh-cn"
-import "./index.scss"
+import React, { memo, useMemo } from "react";
+import PropTypes from "prop-types";
+import dayjs from "dayjs";
+import "dayjs/locale/zh-cn";
+import "./index.scss";
 
 function format(departDate) {
-  let d = dayjs(departDate)
-  return d.format("MM-DD") + d.locale("zh-cn").format("ddd")
+  let d = dayjs(departDate);
+  return d.format("MM-DD") + d.locale("zh-cn").format("ddd");
 }
 
 function Detail(props) {
@@ -18,11 +18,11 @@ function Detail(props) {
     departTimeStr,
     arriverTimeStr,
     trainNumber,
-    durationStr
-  } = props
+    durationStr,
+  } = props;
 
-  const departDateStr = useMemo(() => format(departDate), [departDate])
-  const arriverDateStr = useMemo(() => format(arriverDate), [arriverDate])
+  const departDateStr = useMemo(() => format(departDate), [departDate]);
+  const arriverDateStr = useMemo(() => format(arriverDate), [arriverDate]);
 
   return (
       <div className="detail">
@@ -34,9 +34,7 @@ function Detail(props) {
               </div>
               <div className="middle">
                   <p className="train-name">{trainNumber}</p>
-                  <p className="train-mid">
-                      {props.children}
-                  </p>
+                  <p className="train-mid">{props.children}</p>
                   <p className="train-time">耗时 {durationStr}</p>
               </div>
               <div className="right">
@@ -46,7 +44,7 @@ function Detail(props) {
               </div>
           </div>
       </div>
-  )
+  );
 }
 
 Detail.propTypes = {
@@ -57,8 +55,7 @@ Detail.propTypes = {
   departTimeStr: PropTypes.string.isRequired,
   arriverTimeStr: PropTypes.string.isRequired,
   trainNumber: PropTypes.string.isRequired,
-  durationStr: PropTypes.string.isRequired
-}
+  durationStr: PropTypes.string.isRequired,
+};
 
-export default memo(Detail)
-
+export default memo(Detail);

@@ -1,35 +1,32 @@
-import React, { memo } from 'react'
-import PropTypes from "prop-types"
-import classNames from "classnames"
-import "./index.scss"
+import React, { memo } from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import "./index.scss";
 
 function Choose(props) {
-  const {
-    passengers,
-    updatePassenger
-  } = props
+  const { passengers, updatePassenger } = props;
 
   function createSeat(seatType) {
     return (
         <div>
-            {passengers.map(passenger => {
-                return (
-                    <p
-                        key={passenger.id}
-                        className={classNames('seat', {
-                            active: passenger.seatType === seatType,
-                        })}
-                        data-text={seatType}
-                        onClick={() =>
-                            updatePassenger(passenger.id, {
-                              seatType: seatType,
-                            })
-                        }
-                    >
-                        &#xe02d;
-                    </p>
-                );
-            })}
+            {passengers.map((passenger) => {
+          return (
+              <p
+              key={passenger.id}
+              className={classNames("seat", {
+                active: passenger.seatType === seatType,
+              })}
+              data-text={seatType}
+              onClick={() =>
+                updatePassenger(passenger.id, {
+                  seatType: seatType,
+                })
+              }
+            >
+                  &#xe02d;
+              </p>
+          );
+        })}
         </div>
     );
   }
@@ -50,12 +47,12 @@ function Choose(props) {
               </div>
           </div>
       </div>
-  )
+  );
 }
 
 Choose.propTypes = {
   passengers: PropTypes.array.isRequired,
   updatePassenger: PropTypes.func.isRequired,
-}
+};
 
-export default memo(Choose)
+export default memo(Choose);

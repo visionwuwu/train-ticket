@@ -1,23 +1,16 @@
-import React, { memo, useMemo, useContext } from 'react'
-import PropTypes from "prop-types"
-import URI from "urijs"
-import dayjs from "dayjs"
-import TrainContext from "../../../contexts/train-context"
+import React, { memo, useMemo, useContext } from "react";
+import PropTypes from "prop-types";
+import URI from "urijs";
+import dayjs from "dayjs";
+import TrainContext from "../../../contexts/train-context";
 
 function Channel(props) {
-  const {
-    name,
-    desc,
-    type,
-  } = props
+  const { name, desc, type } = props;
 
-  const {
-    trainNumber,
-    departDate,
-    departStation,
-    arriverStation
-  } = useContext(TrainContext)
-  
+  const { trainNumber, departDate, departStation, arriverStation } = useContext(
+    TrainContext
+  );
+
   const url = useMemo(() => {
     return new URI("order.html")
       .setSearch("type", type)
@@ -25,14 +18,8 @@ function Channel(props) {
       .setSearch("dStation", departStation)
       .setSearch("trainNumber", trainNumber)
       .setSearch("date", dayjs(departDate).format("YYYY-MM-DD"))
-      .toString()
-  }, [
-    type,
-    trainNumber,
-    departDate,
-    departStation,
-    arriverStation
-  ])
+      .toString();
+  }, [type, trainNumber, departDate, departStation, arriverStation]);
 
   return (
       <div className="channel">
@@ -44,14 +31,13 @@ function Channel(props) {
               <div className="buy">买票</div>
           </a>
       </div>
-  )
+  );
 }
 
 Channel.propTypes = {
   name: PropTypes.string.isRequired,
   desc: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-}
+};
 
-export default memo(Channel)
-
+export default memo(Channel);
